@@ -1,0 +1,18 @@
+devel/
+build/
+logs/
+install/
+*~
+*.bag
+*.pyc
+
+
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll

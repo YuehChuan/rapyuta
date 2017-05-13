@@ -1,0 +1,29 @@
+<launch>        
+<arg name="cam" default="rapyuta01"/>
+  <!-- 
+       Start an apriltag node using the default settings
+       to connect to an OpenNI device (e.g. Kinect). 
+  -->
+  <node pkg="apriltags" type="apriltags" name="cam1" output="screen">
+    <param name="~default_tag_size" value="0.037" />
+
+    <param name="~viewer" value="true" />
+    <param name="~publish_detections_image" value="false" />
+
+    <param name="~display_type" value="CUBE" />
+    <param name="~marker_thickness" value="0.02" />
+
+    <rosparam command="delete" param="tag_data" />
+    <rosparam param="tag_data">
+      "1": 
+        size: 0.035
+      "2":
+        size: 0.048
+    </rosparam>
+
+    <remap from="~image" to="/$(arg cam)/usb_cam/image_raw"/>
+    <remap from="~camera_info" to="/$(arg cam)/usb_cam/camera_info"/>
+    <remap from="~marker_array" to="/$(arg cam)/apriltags/marker_array"/>
+    <remap from="~detections" to="/$(arg cam)/apriltags/detections"/>
+  </node>
+</launch>

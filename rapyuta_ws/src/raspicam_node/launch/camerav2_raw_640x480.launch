@@ -1,0 +1,15 @@
+<launch>
+  <node type="raspicam_raw_node" pkg="raspicam_node" name="raspicam_raw_node" output="screen">
+ 
+    <param name="camera_info_url" value="package://raspicam_node/camera_info/camerav2_raw_640x480.yaml"/>
+    <param name="width" value="640"/>
+    <param name="height" value="480"/>
+    <!-- We are running at 90fps to reduce motion blur -->
+    <param name="framerate" value="30"/>
+    <param name="hFlip" value="true"/>
+
+    <param name="camera_frame_id" value="rapyuta01"/>
+
+  </node>
+
+</launch>

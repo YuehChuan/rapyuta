@@ -1,0 +1,23 @@
+camera_matrix:
+  cols: 3
+  data: [521.8912508562524, 0.0, 330.0186703136555, 0.0, 511.5179885064951, 246.2795313029323,
+    0.0, 0.0, 1.0]
+  rows: 3
+camera_name: rapyuta01
+distortion_coefficients:
+  cols: 5
+  data: [0.17069381795572125, -0.2917066912062717, 0.005551725508106537, 0.0009586243380636939,
+    0.0]
+  rows: 1
+distortion_model: plumb_bob
+image_height: 480
+image_width: 640
+projection_matrix:
+  cols: 4
+  data: [533.609375, 0.0, 330.3841400053352, 0.0, 0.0, 523.1630249023438, 247.7586424846777,
+    0.0, 0.0, 0.0, 1.0, 0.0]
+  rows: 3
+rectification_matrix:
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+  rows: 3

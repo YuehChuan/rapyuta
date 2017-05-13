@@ -1,0 +1,31 @@
+rapyuta01:
+  name: Motion Capture Unit 1
+  mac:
+
+rapyuta02:
+  name: Motion Capture Unit 2
+  mac:
+
+rapyuta03:
+  name: Motion Capture Unit 3
+  mac:
+
+rapyuta04:
+  name: Motion Capture Unit 4
+  mac:
+
+rapyuta05:
+  name: Motion Capture Unit 5
+  mac:
+
+rapyuta06:
+  name: Motion Capture Unit 6
+  mac:
+
+rapyuta07:
+  name: Motion Capture Unit 7
+  mac:
+
+rapyuta08:
+  name: Motion Capture Unit 8
+  mac:

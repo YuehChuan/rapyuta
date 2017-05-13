@@ -1,0 +1,3 @@
+[submodule "rapyuta_ws/src/usb_cam"]
+	path = rapyuta_ws/src/usb_cam
+	url = https://github.com/bosch-ros-pkg/usb_cam.git
