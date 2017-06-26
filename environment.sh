@@ -15,6 +15,7 @@ echo "Activating development."
 source $RAPYUTA_ROOT/rapyuta_ws/devel/setup.bash
 export PATH=$PATH:$RAPYUTA_ROOT/rapyuta_ws/src/ubiquity_launches/bin
 
+export ROSLAUNCH_SSH_UNKNOWN=1
 
 # TODO: check that the time is >= 2015
 

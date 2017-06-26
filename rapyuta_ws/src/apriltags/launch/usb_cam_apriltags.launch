@@ -1,5 +1,5 @@
 <launch>        
-<arg name="cam" default="rapyuta01"/>
+<arg name="cam" default="rapyuta05"/>
   <!-- 
        Start an apriltag node using the default settings
        to connect to an OpenNI device (e.g. Kinect). 

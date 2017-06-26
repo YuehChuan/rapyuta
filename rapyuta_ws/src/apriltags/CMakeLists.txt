@@ -61,7 +61,6 @@ message(STATUS ${OpenCV_LIBRARIES})
 message(STATUS ${OpenCV_LDFLAGS})
 add_executable(apriltags src/apriltags.cpp)
 target_link_libraries(apriltags ${catkin_LIBRARIES}
-                                ${Eigen_LIBRARIES}
                                 ${OpenCV_LIBRARIES}
                                 ${Yaml_LIBRARIES}    
                                 ${apriltagscpp_LIBRARY})

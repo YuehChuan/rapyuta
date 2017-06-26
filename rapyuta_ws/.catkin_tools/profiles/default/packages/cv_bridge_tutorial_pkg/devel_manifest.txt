@@ -1,5 +1,0 @@
-cv_bridge_tutorial_pkg
-/home/rapyuta/rapyuta/rapyuta_ws/devel/.private/cv_bridge_tutorial_pkg/lib/pkgconfig/cv_bridge_tutorial_pkg.pc /home/rapyuta/rapyuta/rapyuta_ws/devel/lib/pkgconfig/cv_bridge_tutorial_pkg.pc
-/home/rapyuta/rapyuta/rapyuta_ws/devel/.private/cv_bridge_tutorial_pkg/lib/cv_bridge_tutorial_pkg/sample_cv_bridge_node /home/rapyuta/rapyuta/rapyuta_ws/devel/lib/cv_bridge_tutorial_pkg/sample_cv_bridge_node
-/home/rapyuta/rapyuta/rapyuta_ws/devel/.private/cv_bridge_tutorial_pkg/share/cv_bridge_tutorial_pkg/cmake/cv_bridge_tutorial_pkgConfig.cmake /home/rapyuta/rapyuta/rapyuta_ws/devel/share/cv_bridge_tutorial_pkg/cmake/cv_bridge_tutorial_pkgConfig.cmake
-/home/rapyuta/rapyuta/rapyuta_ws/devel/.private/cv_bridge_tutorial_pkg/share/cv_bridge_tutorial_pkg/cmake/cv_bridge_tutorial_pkgConfig-version.cmake /home/rapyuta/rapyuta/rapyuta_ws/devel/share/cv_bridge_tutorial_pkg/cmake/cv_bridge_tutorial_pkgConfig-version.cmake
