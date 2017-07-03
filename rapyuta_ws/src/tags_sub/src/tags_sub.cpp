@@ -18,15 +18,30 @@
 //TF
 #include <tf/transform_broadcaster.h>
 
-void tags_sub(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+void cam1_sub(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 {
-//  static tf::TransformBroadcaster br;
-//  tf::Transform transform;
-//  transform.setOrigin(tf::Vector3(msg->pose.position.x,msg->pose.position.y,msg->pose.position.z) );
-//  transform.setRotation(tf::Quaternion(msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w) );
-//  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "camera_link"));
-//        int count = sizeof(msg);
-//        ROS_INFO("rpt01 = %d", count);
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
+  transform.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "apriltag", "cam1"));
+//		ROS_INFO("x = %f", msg->detections[0].pose.position.x);
+//		ROS_INFO("y = %f", msg->detections[0].pose.position.y);
+//		ROS_INFO("z = %f", msg->detections[0].pose.position.z);
+//
+//		ROS_INFO("qx = %f", msg->detections[0].pose.orientation.x);
+//		ROS_INFO("qy = %f", msg->detections[0].pose.orientation.y);
+//		ROS_INFO("qz = %f", msg->detections[0].pose.orientation.z);
+//		ROS_INFO("qw = %f", msg->detections[0].pose.orientation.w);
+}
+
+void cam2_sub(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+{
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
+  transform.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "apriltag", "cam2"));
 		ROS_INFO("x = %f", msg->detections[0].pose.position.x);
 		ROS_INFO("y = %f", msg->detections[0].pose.position.y);
 		ROS_INFO("z = %f", msg->detections[0].pose.position.z);
@@ -36,7 +51,22 @@ void tags_sub(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 		ROS_INFO("qz = %f", msg->detections[0].pose.orientation.z);
 		ROS_INFO("qw = %f", msg->detections[0].pose.orientation.w);
 }
-
+void cam3_sub(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+{
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
+  transform.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "apriltag", "cam3"));
+//		ROS_INFO("x = %f", msg->detections[0].pose.position.x);
+//		ROS_INFO("y = %f", msg->detections[0].pose.position.y);
+//		ROS_INFO("z = %f", msg->detections[0].pose.position.z);
+//
+//		ROS_INFO("qx = %f", msg->detections[0].pose.orientation.x);
+//		ROS_INFO("qy = %f", msg->detections[0].pose.orientation.y);
+//		ROS_INFO("qz = %f", msg->detections[0].pose.orientation.z);
+//		ROS_INFO("qw = %f", msg->detections[0].pose.orientation.w);
+}
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "tags_sub");
@@ -52,9 +82,9 @@ int main(int argc, char **argv)
     message_filters::Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), camera1_sub,camera2_sub, camera3_sub);
     sync.registerCallback(boost::bind(&callback, this, _1, _2, _3));
   */    
-    ros::Subscriber pose1_sub = node.subscribe("/rapyuta01/usb_cam/apriltags/detections", 10, tags_sub);
-	ros::Subscriber pose2_sub = node.subscribe("/rapyuta02/usb_cam/apriltags/detections", 10, tags_sub);
-	ros::Subscriber pose3_sub = node.subscribe("/rapyuta03/usb_cam/apriltags/detections", 10, tags_sub);
+    ros::Subscriber pose1_sub = node.subscribe("/rapyuta01/usb_cam/apriltags/detections", 100, cam1_sub);
+	ros::Subscriber pose2_sub = node.subscribe("/rapyuta02/usb_cam/apriltags/detections", 100, cam2_sub);
+	ros::Subscriber pose3_sub = node.subscribe("/rapyuta03/usb_cam/apriltags/detections", 100, cam3_sub);
 	ros::spin();    
     return 0;
 
