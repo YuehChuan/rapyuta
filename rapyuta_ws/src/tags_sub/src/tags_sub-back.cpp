@@ -12,14 +12,14 @@ void tags_cb(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 {
 //        int count = sizeof(msg);
 //        ROS_INFO("rpt01 = %d", count);
-//		ROS_INFO("x = %f", msg->pose.position.x);
-//		ROS_INFO("y = %f", msg->pose.position.y);
-//		ROS_INFO("z = %f", msg->pose.position.z);
-//
-//		ROS_INFO("qx = %f", msg->pose.orientation.x);
-//		ROS_INFO("qy = %f", msg->pose.orientation.y);
-//		ROS_INFO("qz = %f", msg->pose.orientation.z);
-//		ROS_INFO("qw = %f", msg->pose.orientation.w);
+		ROS_INFO("x = %f", msg->pose.position.x);
+		ROS_INFO("y = %f", msg->pose.position.y);
+		ROS_INFO("z = %f", msg->pose.position.z);
+
+		ROS_INFO("qx = %f", msg->pose.orientation.x);
+		ROS_INFO("qy = %f", msg->pose.orientation.y);
+		ROS_INFO("qz = %f", msg->pose.orientation.z);
+		ROS_INFO("qw = %f", msg->pose.orientation.w);
 }
 
 int main(int argc, char **argv)
