@@ -66,9 +66,9 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 
   if(cam1_initialize == false)//next subscriber come change the pose_cam1 value, and next time static frame no value
   {
-
   cam1_initialize = true;
   ROS_INFO("cam1_initialize =%d ",cam1_initialize);
+  //  static_pose_cam1 = InvTransform_cam1;
   static_pose_cam1 = InvTransform_cam1;
   }
   br.sendTransform(tf::StampedTransform(InvTransform_cam1, ros::Time::now(), "map", "camera1"));
@@ -151,6 +151,44 @@ void TSNode::tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
   br_static_cam3.sendTransform(tf::StampedTransform(static_pose_cam3, ros::Time::now(), "map", "cam3_static"));
     }
 
+}
+
+//get and set cam1 pose
+void TSNode::setInitPose_cam1(const Eigen::Matrix4d & pose, double time)
+{
+  cam1_initialize_pose = pose;
+  cam1_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d TSNode::getInitPose_cam1()
+{
+  return cam1_initialize_pose;
+}
+
+//get and set cam2 pose
+void TSNode::setInitPose_cam2(const Eigen::Matrix4d & pose, double time)
+{
+  cam2_initialize_pose = pose;
+  cam2_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d TSNode::getInitPose_cam2()
+{
+  return cam2_initialize_pose;
+}
+//get and set cam3 pose
+void TSNode::setInitPose_cam3(const Eigen::Matrix4d & pose, double time)
+{
+  cam3_initialize_pose = pose;
+  cam3_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d TSNode::getInitPose_cam3()
+{
+  return cam3_initialize_pose;
 }
 
 

@@ -22,7 +22,7 @@
 
 //for math calculating
 #include<vector>
-
+#include <tf/transform_broadcaster.h>
 
 namespace tags_sub
 {
@@ -39,6 +39,14 @@ class TSNode
        ros::Subscriber cam1_pose_sub_;
        ros::Subscriber cam2_pose_sub_;
        ros::Subscriber cam3_pose_sub_;
+
+       //initial
+       Eigen::Matrix4d cam1_initialize_pose;
+       Eigen::Matrix4d cam2_initialize_pose;
+       Eigen::Matrix4d cam3_initialize_pose;
+       double cam1_initialize_time_;//record the initial pose time
+       double cam2_initialize_time_;
+       double cam3_initialize_time_;
     public:
        TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
        TSNode() : TSNode( ros::NodeHandle(), ros::NodeHandle("~") ){}
@@ -48,7 +56,13 @@ class TSNode
        void tags_sub2(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
        void tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
-
+       //set and get the pose
+       Eigen::Matrix4d getInitPose_cam1();
+       void setInitPose_cam1(const Eigen::Matrix4d & pose, double time);
+       Eigen::Matrix4d getInitPose_cam2();
+       void setInitPose_cam2(const Eigen::Matrix4d & pose, double time);
+       Eigen::Matrix4d getInitPose_cam3();
+       void setInitPose_cam3(const Eigen::Matrix4d & pose, double time);
 
 };//end of class
 

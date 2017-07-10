@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>rapyuta_pose_estimator_lib</name>
+  <version>0.0.0</version>
+  <description>The rapyuta_pose_estimator_lib package</description>
+
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="rapyuta@todo.todo">rapyuta</maintainer>
+
+
+  <license>TODO</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>cmake_modules</build_depend>
+
+
+</package>
