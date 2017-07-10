@@ -24,10 +24,19 @@ find_package(Boost REQUIRED COMPONENTS system signals regex date_time program_op
 include(FindPkgConfig)
 pkg_check_modules(Yaml REQUIRED yaml-cpp)
 
+find_package( Sophus REQUIRED )
+find_package(Eigen REQUIRED)
+
+
+## without catkin include sophus ,eigen3
+#include_directories(
+#    /usr/include/eigen3
+#    /usr/local/include/sophus
+#    )
 
 
 ## Generate messages in the 'msg' folder
-#add_message_files(DIRECTORY msg FILES 
+#add_message_files(DIRECTORY msg FILES
 #      AprilTagDetection.msg
 #      AprilTagDetections.msg
 #)
@@ -48,18 +57,20 @@ pkg_check_modules(Yaml REQUIRED yaml-cpp)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(DEPENDENCIES
-    geometry_msgs 
+    geometry_msgs
     std_msgs
     rapyuta_msgs
 )
 
 catkin_package(
   INCLUDE_DIRS include
-  
-  CATKIN_DEPENDS 
-  message_runtime 
+
+  CATKIN_DEPENDS
+  message_runtime
   message_filters
   std_msgs
+
+  DEPENDS eigen
 )
 
 ###########
@@ -74,10 +85,12 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${Yaml_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
+  ${Sophus_INCLUDE_DIRS}
+  ${EIGEN_INCLUDE_DIRS}
 )
 
-add_executable(tags_sub src/tags_sub.cpp)
+add_executable(tags_sub src/node_tags_sub.cpp src/tags_sub.cpp)
 
 add_dependencies(tags_sub tags_sub_generate_messages_cpp)
 
-target_link_libraries(tags_sub ${catkin_LIBRARIES})
+target_link_libraries(tags_sub ${catkin_LIBRARIES} ${Sophus_LIBRARIES})
