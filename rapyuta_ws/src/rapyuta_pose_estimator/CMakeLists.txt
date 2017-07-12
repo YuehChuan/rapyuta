@@ -12,14 +12,30 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   apriltags
   tf
+  std_msgs
+  rapyuta_msgs
+  message_generation
+  message_filters
 )
 
 find_package(Eigen REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system signals regex date_time program_options thread)
+
+find_package( Sophus REQUIRED )
+find_package(Eigen REQUIRED)
+
 
 # Import the yaml-cpp libraries.
 include(FindPkgConfig)
 pkg_check_modules(Yaml REQUIRED yaml-cpp)
+
+
+generate_messages(DEPENDENCIES
+    geometry_msgs
+    std_msgs
+    rapyuta_msgs
+)
 
 
 
@@ -37,6 +53,7 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
   ${Yaml_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
+  ${Sophus_INCLUDE_DIRS}
   )
 
 add_executable(rapyuta_pose_estimator src/node.cpp src/rapyuta_pose_estimator.cpp)

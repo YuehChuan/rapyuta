@@ -39,24 +39,15 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
     {
 
 
-/*    Eigen::Quaterniond q;
-    q.x() = msg->detections[0].pose.orientation.x;
-    q.y() = msg->detections[0].pose.orientation.y;
-    q.z() = msg->detections[0].pose.orientation.z;
-    q.w() = msg->detections[0].pose.orientation.w;
-
-    Eigen::Matrix3d R = q.toRotationMatrix();
-    Eigen::Matrix3d RInv;
-    Eigen::Matrix4d R4 = Eigen::Matrix4d::
-    RInv=R.inverse();
-*/
-
-
   static tf::TransformBroadcaster br;
   static tf::TransformBroadcaster br_static_cam1;
   tf::Transform transform;
   transform.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
   transform.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
+
+
+
+
 
   //broadcast transform
   //inverse transform
@@ -66,28 +57,14 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 
   if(cam1_initialize == false)//next subscriber come change the pose_cam1 value, and next time static frame no value
   {
+  static_pose_cam1 = InvTransform_cam1;
   cam1_initialize = true;
   ROS_INFO("cam1_initialize =%d ",cam1_initialize);
-  //  static_pose_cam1 = InvTransform_cam1;
-  static_pose_cam1 = InvTransform_cam1;
+
   }
   br.sendTransform(tf::StampedTransform(InvTransform_cam1, ros::Time::now(), "map", "camera1"));
   br_static_cam1.sendTransform(tf::StampedTransform(static_pose_cam1, ros::Time::now(), "map", "cam1_static"));
 
-
-
-
-/*        int count = sizeof(msg->detections.size());
-        ROS_INFO("detections = %d", count);
-		ROS_INFO("x = %f", msg->detections[0].pose.position.x);
-		ROS_INFO("y = %f", msg->detections[0].pose.position.y);
-		ROS_INFO("z = %f", msg->detections[0].pose.position.z);
-
-		ROS_INFO("qx = %f", msg->detections[0].pose.orientation.x);
-		ROS_INFO("qy = %f", msg->detections[0].pose.orientation.y);
-		ROS_INFO("qz = %f", msg->detections[0].pose.orientation.z);
-		ROS_INFO("qw = %f", msg->detections[0].pose.orientation.w);
-*/
 
     }
 

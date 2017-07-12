@@ -24,7 +24,7 @@
 #include<vector>
 #include <tf/transform_broadcaster.h>
 
-namespace tags_sub
+namespace rapyuta_pose_estimator
 {
 
 class TSNode
@@ -44,7 +44,7 @@ class TSNode
        Eigen::Matrix4d cam1_initialize_pose;
        Eigen::Matrix4d cam2_initialize_pose;
        Eigen::Matrix4d cam3_initialize_pose;
-       double cam1_initialize_time_;//record the initialize pose time
+       double cam1_initialize_time_;//Get the time at which first apriltag arrive
        double cam2_initialize_time_;
        double cam3_initialize_time_;
     public:
