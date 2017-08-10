@@ -60,6 +60,7 @@ class TSNode
        tf::Transform matrixToTf( const Eigen::Matrix4d eigenMatrix);
        tf::Transform matrixToTf( const Eigen::Matrix3d rot, const Eigen::Vector3d pos);
 
+       Eigen::Quaterniond poseToQuaterniond(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
 };//end of class
 

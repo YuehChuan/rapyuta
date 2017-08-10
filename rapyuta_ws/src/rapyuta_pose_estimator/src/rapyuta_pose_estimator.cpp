@@ -62,44 +62,7 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 //      trackable_object_.setInitialStatus_camera1(true);
       }
 
-//original
 
-
-      Eigen::Vector3d pos_cam1 = Eigen::Vector3d(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z);
-      Eigen::Quaterniond q_cam(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w);
-      Eigen::Matrix3d R_cam1 = q_cam.toRotationMatrix();
-
-      Eigen::Matrix4d Transform_cam3=Eigen::Matrix4d::Identity();
-
-      Eigen::Matrix4d Transform_cam5=Eigen::Matrix4d::Identity();
-      tf::Vector3  v_cam1;
-      tf::Matrix3x3 R_matrix_cam1;
-      Transform_cam3.block(0,0,3,3)=R_cam1;
-      Transform_cam3(0,3) = msg->detections[0].pose.position.x;
-      Transform_cam3(1,3) = msg->detections[0].pose.position.y;
-      Transform_cam3(2,3) = msg->detections[0].pose.position.z;
-
-      //testing
-      Transform_cam5 << 0.71,-0.41,0.58,3,
-                        0.0,0.82,0.58,3,
-                        -0.71,-0.41,0.58,3,
-                        0,0,0,1;
-
-                    R_cam1  = Transform_cam5.block(0,0,3,3);
-                    Transform_cam5(0,3)=3;
-                    Transform_cam5(1,3)=3;
-                    Transform_cam5(2,3)=3;
-                    pos_cam1(0)=3;
-                    pos_cam1(1)=3;
-                    pos_cam1(2)=3;
-
-      //
-      cout<< "Transform_cam5"<<endl;
-      cout<< Transform_cam5<<endl;
-
-      vectorEigenToTF( pos_cam1,v_cam1);
-
-      matrixEigenToTF(R_cam1,R_matrix_cam1);
 /*
       cam1_R_inv = R_cam1.transpose();
       pos_1 = -cam1_R_inv*pos_cam1;
@@ -109,28 +72,11 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
       inv(1,3) = pos_1(1);
       inv(2,3) = pos_1(2);
 */
-
-//cam1 compare
-      //visualization
       tf::Transform transform;
-      transform.setOrigin(v_cam1);
-      transform.setBasis(R_matrix_cam1);
+      transform=matrixToTf(transform_cam1);
 
-      tf::Transform transform3;
-      transform3=matrixToTf(R_cam1,pos_cam1);
-//      cout<<"transform-origin"<<endl;
-//      cout<<transform<<endl;
-//      cout<<"transform-compare"<<endl;
-//      cout<<transform3<<endl;
-
-//        transform.Transform(R_matrix_cam1,v_cam1);
-
-  //        tf::quaternionEigenToTF( Eigen::Quaterniond(cam1_rot),cam1_q);
-
-
-            br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "apriltag", "camera1"));
+            br.sendTransform(tf::StampedTransform(transform.inverse(), ros::Time::now(), "apriltag", "camera1"));
             br_cam1.sendTransform(tf::StampedTransform(transform2.inverse(), ros::Time::now(),"apriltag","camera1_original"));
-            br_cam2.sendTransform(tf::StampedTransform(transform3, ros::Time::now(),"apriltag","camera1_compare"));
     }
 }
 
@@ -220,14 +166,24 @@ void TSNode::tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 Eigen::Matrix4d TSNode::poselistToTransform( const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 {
   Eigen::Vector3d pos_cam = Eigen::Vector3d(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z);
-  Eigen::Quaterniond q_cam(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w);
-  Eigen::Matrix3d R_cam = q_cam.toRotationMatrix();
+//becarefule the quaterniond initialize order is (W,X,Y,Z)
+//  Eigen::Quaterniond q_cam(msg->detections[0].pose.orientation.w,msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z);//!!!! the order is Quaterniond(W,X,Y,Z)
+  Eigen::Quaterniond q_cam;
+  q_cam=poseToQuaterniond(msg);
+  Eigen::Matrix3d R_cam = q_cam.normalized().toRotationMatrix();
+
+  cout<<" R_cam"<<endl;
+  cout<<R_cam<<endl;
 
   Eigen::Matrix4d Transform_cam=Eigen::Matrix4d::Identity();
   Transform_cam.block(0,0,3,3)=R_cam;
   Transform_cam(0,3) = msg->detections[0].pose.position.x;
   Transform_cam(1,3) = msg->detections[0].pose.position.y;
   Transform_cam(2,3) = msg->detections[0].pose.position.z;
+
+  cout<<"pose.orientation.x"<<endl;
+  cout<<msg->detections[0].pose.orientation.x<<","<<msg->detections[0].pose.orientation.y<<","<<msg->detections[0].pose.orientation.z<<","<<msg->detections[0].pose.orientation.w<<endl;
+  cout<<q_cam.coeffs()<<endl;
 
   return Transform_cam;
 }
@@ -277,5 +233,17 @@ tf::Transform TSNode::matrixToTf( const Eigen::Matrix3d rot, const Eigen::Vector
   return transform;
 }
 
+
+Eigen::Quaterniond TSNode::poseToQuaterniond(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+{
+//becarefule the order is (W,X,Y,Z)
+  Eigen::Quaterniond q;
+  q.x()=msg->detections[0].pose.orientation.x;
+  q.y()=msg->detections[0].pose.orientation.y;
+  q.z()=msg->detections[0].pose.orientation.z;
+  q.w()=msg->detections[0].pose.orientation.w;
+
+  return q;
+}
 
 }//end name space
