@@ -10,6 +10,7 @@
 //syncronize apriltags subscription
 #include<message_filters/subscriber.h>
 #include<message_filters/synchronizer.h>
+#include <message_filters/time_synchronizer.h>
 #include<message_filters/sync_policies/approximate_time.h>
 
 //apriltags message
@@ -31,6 +32,8 @@
 #include <ctime>
 
 using namespace std;
+typedef message_filters::sync_policies::ApproximateTime<rapyuta_msgs::AprilTagDetections, rapyuta_msgs::AprilTagDetections> Cam12_SyncPolicy;
+
 namespace rapyuta_pose_estimator
 {
 
@@ -44,7 +47,6 @@ class TSNode
        ros::Subscriber cam2_pose_sub_;
        ros::Subscriber cam3_pose_sub_;
        PoseEstimator trackable_object_;
-
     public:
        TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
        TSNode() : TSNode( ros::NodeHandle(), ros::NodeHandle("~") ){}
@@ -54,6 +56,8 @@ class TSNode
        void tags_sub2(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
        void tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
+       //syncronize Subscriber pair
+       void cam12_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg);
 
        //object to track  can it put in private????
 

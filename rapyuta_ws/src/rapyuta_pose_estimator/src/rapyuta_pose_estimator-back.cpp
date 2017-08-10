@@ -27,13 +27,6 @@ TSNode::TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private) :nh
     cam1_pose_sub_ = nh_.subscribe("/rapyuta01/usb_cam/apriltags/detections", 10, &TSNode::tags_sub1, this);
     cam2_pose_sub_= nh_.subscribe("/rapyuta02/usb_cam/apriltags/detections", 10, &TSNode::tags_sub2, this);
     cam3_pose_sub_ = nh_.subscribe("/rapyuta03/usb_cam/apriltags/detections", 10, &TSNode::tags_sub3, this);
-
-    //syncronizer subscriber pair
-    message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> cam12_cam1_sub(nh_,"/rapyuta01/usb_cam/apriltags/detections", 10);
-    message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> cam12_cam2_sub(nh_,"/rapyuta02/usb_cam/apriltags/detections", 10);
-    message_filters::Synchronizer<Cam12_SyncPolicy> sync(Cam12_SyncPolicy(50), cam12_cam1_sub, cam12_cam2_sub);
-   sync.registerCallback(boost::bind(&rapyuta_pose_estimator::TSNode::cam12_sub_callback,this, _1, _2)); //why?
-
 }
 
 TSNode::~TSNode()
@@ -157,23 +150,6 @@ void TSNode::tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 //    br_cam.sendTransform(tf::StampedTransform(transform1.inverse(), ros::Time::now(),"apriltag","camera3_original"));
   }
 }
-
-
-//----------------syncronize subscriber----------------
-
-void TSNode::cam12_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg)
-{
-
-cout <<"from cam12_sub callback!!!!!!!!!" <<endl;
-
-}
-
-
-
-
-
-
-
 
 //-------------------------------------------------
 // Transformation utility
