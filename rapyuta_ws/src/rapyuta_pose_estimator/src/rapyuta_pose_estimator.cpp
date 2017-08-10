@@ -47,12 +47,12 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
       transform_cam1 =poselistToTransform(msg); // read msg and convert  to 4x4 homogeniousmatrix
 
       //raw data
-      tf::Transform transform2;
-      transform2=setTFfromMsg(msg);
+      tf::Transform transform1;
+      transform1=setTFfromMsg(msg);
       //visualization
       static tf::TransformBroadcaster br;
       static tf::TransformBroadcaster br_cam1;
-      static tf::TransformBroadcaster br_cam2;
+      static tf::TransformBroadcaster br_cam2;//test eigen inverse
 
       if(cam1status== false)
       {
@@ -60,13 +60,18 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 //      trackable_object_.setInitialStatus_camera1(true);
       }
 
-      InverseTimeBenchmark(transform_cam1);
+      Eigen::Matrix4d cam1_inverse=getMatrixInverse(transform_cam1);
+      tf::Transform transform2;
+      transform2=matrixToTf(cam1_inverse);
+
+    //  InverseTimeBenchmark(transform_cam1); //for testing inverse speed
 
       tf::Transform transform;
       transform=matrixToTf(transform_cam1);
 
       br.sendTransform(tf::StampedTransform(transform.inverse(), ros::Time::now(), "apriltag", "camera1"));
-      br_cam1.sendTransform(tf::StampedTransform(transform2.inverse(), ros::Time::now(),"apriltag","camera1_original"));
+      br_cam1.sendTransform(tf::StampedTransform(transform1.inverse(), ros::Time::now(),"apriltag","camera1_original"));
+      br_cam2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(),"apriltag","camera1_eigen"));
     }
 }
 
