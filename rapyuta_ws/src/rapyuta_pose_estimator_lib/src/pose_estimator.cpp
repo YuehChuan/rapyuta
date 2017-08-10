@@ -27,13 +27,13 @@ Matrix6d PoseEstimator::getPoseCovariance()
 void PoseEstimator::predictPose(double time_to_predict)
 {
     predicted_time_= time_to_predict;
-    
+
     //get difference of poses, then its twist coordinates
     Vector6d delta = logarithmMap(previous_pose_.inverse()* current_pose_);
-    
+
     //extrapolate
     Vector6d delta_hat = delta / ( current_time_ - previous_time_)*(predicted_time_ - current_time_);
-    
+
     //Predict new pose
     predicted_pose_ =current_pose_ * exponentialMap(delta_hat);
 }
@@ -64,10 +64,10 @@ void PoseEstimator::updatePose()
 void PoseEstimator::optimiseAndUpdatePose(double & time_to_predict)
 {
     optimisePose();
-    
+
     if(it_since_initialized_ <2)
     {
-        it_since_initialized_++;    
+        it_since_initialized_++;
     }
     updatePose();
     pose_updated_ = true;
@@ -77,7 +77,7 @@ Eigen::Matrix4d PoseEstimator::exponentialMap(const Vector6d & twist)
 {
     Eigen::Vector3d upsilon = twist.head<3>();
     Eigen::Vector3d omega = twist.tail<3>();
-    
+
     double theta = omega.norm();
     double theta_squared = theta * theta;
 
@@ -95,9 +95,9 @@ Eigen::Matrix4d PoseEstimator::exponentialMap(const Vector6d & twist)
     {
         rotation = Eigen::Matrix3d::Identity() + Omega / theta * sin(theta)+ Omega_squared / theta_squared *(1 - cos(theta));
 
-        V = (Eigen::Matrix3d::Identity() + ( 1- cos(theta)) / (theta_squared)*Omega + (theta - sin(theta)) / (theta_squared * theta) * Omega_squared);      
+        V = (Eigen::Matrix3d::Identity() + ( 1- cos(theta)) / (theta_squared)*Omega + (theta - sin(theta)) / (theta_squared * theta) * Omega_squared);
     }
-    
+
     Eigen::Matrix4d transform;
     transform.setIdentity();
     transform.block<3,3>(0,0)= rotation;
@@ -127,7 +127,7 @@ Vector6d PoseEstimator::logarithmMap(const Eigen::Matrix4d & trans)
     else
     {
         double temp = (R.trace() - 1)/ 2;
-        
+
         // Force phi to be either 1 or -1 if necessary. Floating point errors can cause problems resulting in this not happening
         if(temp >1)
         {
@@ -146,13 +146,13 @@ Vector6d PoseEstimator::logarithmMap(const Eigen::Matrix4d & trans)
         {
             w_hat = (R - R.transpose() ) / (2*sin(phi)) * phi;
         }
-    
+
     }
     // Extract w from skew symmetrix matrix of w
     w <<w_hat(2,1), w_hat(0,2), w_hat(1,0);
 
     w_norm = w.norm();
-    
+
     // Calculate upsilon
     if(t.isApproxToConstant(0, 1e-10)==1)
     {
@@ -172,7 +172,7 @@ Vector6d PoseEstimator::logarithmMap(const Eigen::Matrix4d & trans)
     // Compose twist coordinates vector
     xi.head<3>() = upsilon;
     xi.tail<3>() =w;
-    
+
     return xi;
 }
 
@@ -182,6 +182,109 @@ Eigen::Matrix3d PoseEstimator::skewSymmetricMatrix(const Eigen::Vector3d w)
     Omega << 0, -w(2), w(1),w(2),0, -w(0), -w(1), w(0),0;
     return Omega;
 }
+
+//initialize get and set pose
+
+//get and set cam1 pose
+void PoseEstimator::setInitPose_cam1(const Eigen::Matrix4d & pose, double time)
+{
+  cam1_initialize_pose = pose;
+  cam1_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getInitPose_cam1()
+{
+  return cam1_initialize_pose;
+}
+
+//get and set cam2 pose
+void PoseEstimator::setInitPose_cam2(const Eigen::Matrix4d & pose, double time)
+{
+  cam2_initialize_pose = pose;
+  cam2_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getInitPose_cam2()
+{
+  return cam2_initialize_pose;
+}
+//get and set cam3 pose
+void PoseEstimator::setInitPose_cam3(const Eigen::Matrix4d & pose, double time)
+{
+  cam3_initialize_pose = pose;
+  cam3_initialize_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getInitPose_cam3()
+{
+  return cam3_initialize_pose;
+}
+//get and set camera status
+void PoseEstimator::setInitialStatus_camera1(bool hasInitialize_cam1)
+{
+  cam1_since_initialized_=hasInitialize_cam1;
+}
+double PoseEstimator::getInitialStatus_camera1()
+{
+  return cam1_since_initialized_;
+}
+void PoseEstimator::setInitialStatus_camera2(bool hasInitialize_cam2)
+{
+  cam2_since_initialized_=hasInitialize_cam2;
+}
+double PoseEstimator::getInitialStatus_camera2()
+{
+  return cam2_since_initialized_;
+}
+void PoseEstimator::setInitialStatus_camera3(bool hasInitialize_cam3)
+{
+  cam3_since_initialized_=hasInitialize_cam3;
+}
+double PoseEstimator::getInitialStatus_camera3()
+{
+  return cam3_since_initialized_;
+}
+
+//get time camera capture time
+double PoseEstimator::getInitTime_cam1()
+{
+  return cam1_initialize_time_;
+}
+
+double PoseEstimator::getInitTime_cam2()
+{
+  return cam2_initialize_time_;
+}
+
+double PoseEstimator::getInitTime_cam3()
+{
+  return cam3_initialize_time_;
+}
+
+//get and set initial relationship
+Eigen::Matrix4d PoseEstimator::getInitialRelation_cam1Tocam2()
+{
+  return cam2_relateTo_cam1;
+}
+Eigen::Matrix4d PoseEstimator::getInitialRelation_cam1Tocam3()
+{
+  return cam3_relateTo_cam1;
+}
+void PoseEstimator::setInitialRelation_cam1Tocam3(const Eigen::Matrix4d & pose)
+{
+  cam3_relateTo_cam1 = pose;
+  //cam3_initialize_time_ = time;
+}
+void PoseEstimator::setInitialRelation_cam1Tocam2(const Eigen::Matrix4d & pose)
+{
+  cam2_relateTo_cam1 = pose;
+  //cam3_initialize_time_ = time;
+}
+
+
 
 
 }//namespace

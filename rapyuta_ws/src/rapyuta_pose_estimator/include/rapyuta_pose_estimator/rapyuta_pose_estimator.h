@@ -1,5 +1,5 @@
-#ifndef TAGS_SUB_H_
-#define TAGS_SUB_H_
+#ifndef RAPYUTA_POSE_ESTIMATOR_
+#define RAPYUTA_POSE_ESTIMATOR_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,30 +23,25 @@
 //for math calculating
 #include<vector>
 #include <tf/transform_broadcaster.h>
+#include <tf_conversions/tf_eigen.h> //tf eigen convert
+#include <tf/transform_datatypes.h>
+#include "rapyuta_pose_estimator_lib/pose_estimator.h"
 
+using namespace std;
 namespace rapyuta_pose_estimator
 {
 
 class TSNode
 {
     private:
-       bool cam1_initialize;
-       bool cam2_initialize;
-       bool cam3_initialize;
        ros::NodeHandle nh_;
        ros::NodeHandle nh_private_;
        ros::Publisher frame_pub_;
        ros::Subscriber cam1_pose_sub_;
        ros::Subscriber cam2_pose_sub_;
        ros::Subscriber cam3_pose_sub_;
+       PoseEstimator trackable_object_;
 
-       //initial
-       Eigen::Matrix4d cam1_initialize_pose;
-       Eigen::Matrix4d cam2_initialize_pose;
-       Eigen::Matrix4d cam3_initialize_pose;
-       double cam1_initialize_time_;//Get the time at which first apriltag arrive
-       double cam2_initialize_time_;
-       double cam3_initialize_time_;
     public:
        TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
        TSNode() : TSNode( ros::NodeHandle(), ros::NodeHandle("~") ){}
@@ -56,16 +51,18 @@ class TSNode
        void tags_sub2(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
        void tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
-       //set and get the pose
-       Eigen::Matrix4d getInitPose_cam1();
-       void setInitPose_cam1(const Eigen::Matrix4d & pose, double time);
-       Eigen::Matrix4d getInitPose_cam2();
-       void setInitPose_cam2(const Eigen::Matrix4d & pose, double time);
-       Eigen::Matrix4d getInitPose_cam3();
-       void setInitPose_cam3(const Eigen::Matrix4d & pose, double time);
+
+       //object to track  can it put in private????
+
+       //matrix transform utility
+       Eigen::Matrix4d poselistToTransform( const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
+
+       tf::Transform matrixToTf( const Eigen::Matrix4d eigenMatrix);
+       tf::Transform matrixToTf( const Eigen::Matrix3d rot, const Eigen::Vector3d pos);
+
 
 };//end of class
 
 }//tags_sub namespace
 
-#endif /*TAGS_SUB_H_*/
+#endif /*RAPYUTA_POSE_ESTIMATOR_*/

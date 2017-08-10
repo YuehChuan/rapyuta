@@ -86,12 +86,9 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
                         0,0,0,1;
 
                     R_cam1  = Transform_cam5.block(0,0,3,3);
-                    Transform_cam5(0,3)=3;
-                    Transform_cam5(1,3)=3;
-                    Transform_cam5(2,3)=3;
-                    pos_cam1(0)=3;
-                    pos_cam1(1)=3;
-                    pos_cam1(2)=3;
+                    Transform_cam5(0,3)=pos_cam1(0);
+                    Transform_cam5(1,3)=pos_cam1(1);
+                    Transform_cam5(2,3)=pos_cam1(2);
 
       //
       cout<< "Transform_cam5"<<endl;
@@ -100,6 +97,7 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
       vectorEigenToTF( pos_cam1,v_cam1);
 
       matrixEigenToTF(R_cam1,R_matrix_cam1);
+
 /*
       cam1_R_inv = R_cam1.transpose();
       pos_1 = -cam1_R_inv*pos_cam1;
@@ -117,7 +115,7 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
       transform.setBasis(R_matrix_cam1);
 
       tf::Transform transform3;
-      transform3=matrixToTf(R_cam1,pos_cam1);
+      transform3=matrixToTf(Transform_cam5);
 //      cout<<"transform-origin"<<endl;
 //      cout<<transform<<endl;
 //      cout<<"transform-compare"<<endl;

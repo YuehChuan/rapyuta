@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapyuta_msgs
   message_generation
   message_filters
+  tf_conversions
 )
 
 find_package(Eigen REQUIRED)
@@ -66,6 +67,7 @@ target_link_libraries(
     ${OpenCV_LIBRARIES}
     ${Yaml_LIBRARIES}
     ${apriltagscpp_LIBRARIES}
+    ${Sophus_LIBRARIES}
     )
 
 ###nodelet
