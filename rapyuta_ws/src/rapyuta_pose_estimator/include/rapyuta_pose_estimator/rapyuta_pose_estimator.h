@@ -27,6 +27,9 @@
 #include <tf/transform_datatypes.h>
 #include "rapyuta_pose_estimator_lib/pose_estimator.h"
 
+//time
+#include <ctime>
+
 using namespace std;
 namespace rapyuta_pose_estimator
 {
@@ -54,13 +57,21 @@ class TSNode
 
        //object to track  can it put in private????
 
-       //matrix transform utility
+       //TF-Eigen transform utility
        Eigen::Matrix4d poselistToTransform( const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
        tf::Transform matrixToTf( const Eigen::Matrix4d eigenMatrix);
        tf::Transform matrixToTf( const Eigen::Matrix3d rot, const Eigen::Vector3d pos);
+       tf::Transform setTFfromMsg(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
+       Eigen::Vector3d poseMsgToEigenPos(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
        Eigen::Quaterniond poseToQuaterniond(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
+
+       //Matrix and vector arithmetic
+       Eigen::Matrix4d  getMatrixInverse( const Eigen::Matrix4d inputMat4x4);
+       Eigen::Matrix4d  getMatrixInverse( const Eigen::Matrix3d inputRot3x3, const Eigen::Vector3d inputVec);
+       void InverseTimeBenchmark(const Eigen::Matrix4d inputMat4x4);
+
 
 };//end of class
 

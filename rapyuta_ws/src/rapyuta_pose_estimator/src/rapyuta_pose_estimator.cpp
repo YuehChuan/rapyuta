@@ -46,11 +46,9 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
       cam1status=trackable_object_.getInitialStatus_camera1();
       transform_cam1 =poselistToTransform(msg); // read msg and convert  to 4x4 homogeniousmatrix
 
-
+      //raw data
       tf::Transform transform2;
-      transform2.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
-      transform2.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
-
+      transform2=setTFfromMsg(msg);
       //visualization
       static tf::TransformBroadcaster br;
       static tf::TransformBroadcaster br_cam1;
@@ -62,21 +60,13 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 //      trackable_object_.setInitialStatus_camera1(true);
       }
 
+      InverseTimeBenchmark(transform_cam1);
 
-/*
-      cam1_R_inv = R_cam1.transpose();
-      pos_1 = -cam1_R_inv*pos_cam1;
-
-      inv.block(0,0,3,3)=cam1_R_inv;
-      inv(0,3) = pos_1(0);
-      inv(1,3) = pos_1(1);
-      inv(2,3) = pos_1(2);
-*/
       tf::Transform transform;
       transform=matrixToTf(transform_cam1);
 
-            br.sendTransform(tf::StampedTransform(transform.inverse(), ros::Time::now(), "apriltag", "camera1"));
-            br_cam1.sendTransform(tf::StampedTransform(transform2.inverse(), ros::Time::now(),"apriltag","camera1_original"));
+      br.sendTransform(tf::StampedTransform(transform.inverse(), ros::Time::now(), "apriltag", "camera1"));
+      br_cam1.sendTransform(tf::StampedTransform(transform2.inverse(), ros::Time::now(),"apriltag","camera1_original"));
     }
 }
 
@@ -162,18 +152,18 @@ void TSNode::tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 
 }
 
+//-------------------------------------------------
+// Transformation utility
+//-------------------------------------------------
+
 //read pose and convert to 4x4Matrix
 Eigen::Matrix4d TSNode::poselistToTransform( const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 {
-  Eigen::Vector3d pos_cam = Eigen::Vector3d(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z);
-//becarefule the quaterniond initialize order is (W,X,Y,Z)
-//  Eigen::Quaterniond q_cam(msg->detections[0].pose.orientation.w,msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z);//!!!! the order is Quaterniond(W,X,Y,Z)
+  Eigen::Vector3d pos_cam;
+  pos_cam = poseMsgToEigenPos(msg);
   Eigen::Quaterniond q_cam;
   q_cam=poseToQuaterniond(msg);
   Eigen::Matrix3d R_cam = q_cam.normalized().toRotationMatrix();
-
-  cout<<" R_cam"<<endl;
-  cout<<R_cam<<endl;
 
   Eigen::Matrix4d Transform_cam=Eigen::Matrix4d::Identity();
   Transform_cam.block(0,0,3,3)=R_cam;
@@ -181,10 +171,11 @@ Eigen::Matrix4d TSNode::poselistToTransform( const rapyuta_msgs::AprilTagDetecti
   Transform_cam(1,3) = msg->detections[0].pose.position.y;
   Transform_cam(2,3) = msg->detections[0].pose.position.z;
 
+/* debug info
   cout<<"pose.orientation.x"<<endl;
   cout<<msg->detections[0].pose.orientation.x<<","<<msg->detections[0].pose.orientation.y<<","<<msg->detections[0].pose.orientation.z<<","<<msg->detections[0].pose.orientation.w<<endl;
   cout<<q_cam.coeffs()<<endl;
-
+*/
   return Transform_cam;
 }
 
@@ -204,17 +195,11 @@ tf::Transform TSNode::matrixToTf( const Eigen::Matrix4d inputMatrix_4x4)
   pos(2)=inputMatrix_4x4(2,3);
   rot_3x3=inputMatrix_4x4.block(0,0,3,3);
 
-  cout<< "rot_3x3"<<endl;
-  cout<< rot_3x3<<endl;
-  cout<< "pos"<<endl;
-  cout<< pos<<endl;
   tf::matrixEigenToTF(rot_3x3,R_matrix_cam);
   tf::vectorEigenToTF (pos,v_cam);
   transform.setOrigin(v_cam);
   transform.setBasis(R_matrix_cam);
 
-  cout<< "inside matrixToTf"<<endl;
-  cout<< inputMatrix_4x4<<endl;
   return transform;
 }
 
@@ -233,10 +218,10 @@ tf::Transform TSNode::matrixToTf( const Eigen::Matrix3d rot, const Eigen::Vector
   return transform;
 }
 
-
+//turn pose to quaterniond
 Eigen::Quaterniond TSNode::poseToQuaterniond(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 {
-//becarefule the order is (W,X,Y,Z)
+//be carefule the order is (W,X,Y,Z)!
   Eigen::Quaterniond q;
   q.x()=msg->detections[0].pose.orientation.x;
   q.y()=msg->detections[0].pose.orientation.y;
@@ -245,5 +230,117 @@ Eigen::Quaterniond TSNode::poseToQuaterniond(const rapyuta_msgs::AprilTagDetecti
 
   return q;
 }
+
+//setTF transfrom
+tf::Transform TSNode::setTFfromMsg(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+{
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(msg->detections[0].pose.position.x,msg->detections[0].pose.position.y,msg->detections[0].pose.position.z) );
+  transform.setRotation(tf::Quaternion(msg->detections[0].pose.orientation.x, msg->detections[0].pose.orientation.y, msg->detections[0].pose.orientation.z, msg->detections[0].pose.orientation.w) );
+  return transform;
+}
+
+Eigen::Vector3d TSNode::poseMsgToEigenPos(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
+{
+  Eigen::Vector3d pos;
+  pos(0) = msg->detections[0].pose.position.x;
+  pos(1) = msg->detections[0].pose.position.y;
+  pos(2) = msg->detections[0].pose.position.z;
+  return pos;
+}
+
+//-----------------TF-Eigen transformation utility(above part)--------------------------------
+
+Eigen::Matrix4d  TSNode::getMatrixInverse( const Eigen::Matrix4d inputMat4x4)
+{
+  /* 4x4 homogenious Matrix inverse
+    R.transpose()      | -R.transpose()*t
+    ---------------------------------------
+    0     0       0    |        1
+  */
+//get value
+  Eigen::Matrix3d original_Rotation;
+  Eigen::Matrix3d transpose_Rotation;
+  Eigen::Vector3d original_Translation;
+  Eigen::Vector3d translation;
+  Eigen::Matrix4d outputMat4x4;
+
+  original_Rotation=inputMat4x4.block(0,0,3,3);
+  original_Translation(0) = inputMat4x4(0,3);
+  original_Translation(1) = inputMat4x4(1,3);
+  original_Translation(2) = inputMat4x4(2,3);
+
+
+  transpose_Rotation=original_Rotation.transpose();
+  translation= -transpose_Rotation*original_Translation;
+  outputMat4x4.block(0,0,3,3) = transpose_Rotation;
+  outputMat4x4(0,3) = translation(0);
+  outputMat4x4(1,3) = translation(1);
+  outputMat4x4(2,3) = translation(2);
+  return outputMat4x4;
+}
+
+
+Eigen::Matrix4d  TSNode::getMatrixInverse( const Eigen::Matrix3d inputRot3x3, const Eigen::Vector3d inputVec)
+{
+  //overload version for different input combination
+  /* 4x4 homogenious Matrix inverse
+    R.transpose()      | -R.transpose()*t
+    ---------------------------------------
+    0     0       0    |        1
+  */
+//get value
+
+  Eigen::Matrix3d transpose_Rotation;
+  Eigen::Vector3d translation;
+  Eigen::Matrix4d outputMat4x4;
+
+  transpose_Rotation=inputRot3x3.transpose();
+  translation= -transpose_Rotation*inputVec;
+  outputMat4x4.block(0,0,3,3) = transpose_Rotation;
+  outputMat4x4(0,3) = translation(0);
+  outputMat4x4(1,3) = translation(1);
+  outputMat4x4(2,3) = translation(2);
+  return outputMat4x4;
+}
+
+//for testing the speed of inverse
+void TSNode::InverseTimeBenchmark(const Eigen::Matrix4d inputMat4x4)
+{
+
+        Eigen::Matrix4d inv;
+        Eigen::Matrix4d inv_1;
+        Eigen::Matrix4d inv_2;
+        clock_t time_stt = clock();//start
+        inv=inputMat4x4.inverse();
+        cout<<"time use in normal inverse is" << 1000*(clock()-time_stt)/(double)CLOCKS_PER_SEC<<"ms"<<endl;
+        cout<<"normal inverse result is :"<<endl;
+        cout<<inv<<endl;
+        clock_t time_stt1 = clock();//start
+        inv_1=getMatrixInverse(inputMat4x4);
+        cout<<"time use in transpose inverse is" << 1000*(clock()-time_stt1)/(double)CLOCKS_PER_SEC<<"ms"<<endl;
+        cout<<"transpose inverse result is :"<<endl;
+        cout<<inv_1<<endl;
+
+
+        Eigen::Matrix4d Identity=Eigen::Matrix4d::Identity();;
+        clock_t time_stt2 = clock();//start
+
+        inv_2= inputMat4x4.colPivHouseholderQr().solve(Identity);
+        cout<<"time use in Qr composition is" << 1000*(clock()-time_stt2)/(double)CLOCKS_PER_SEC<<"ms"<<endl;
+        cout<<"Qr composition inverse result is :"<<endl;
+        cout<<inv_2<<endl;
+
+}
+
+
+//---------------Matrix and vector arithmetic(above part)------------------------------------
+
+
+
+
+
+
+
 
 }//end name space
