@@ -30,6 +30,11 @@ TSNode::TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private) :nh
     trackable_object_.setInitialStatus_camera2(false);
     trackable_object_.setInitialStatus_camera3(false);
 
+    //initialize check msg empty flag
+    trackable_object_.setEmptyflag_camera1(false);
+    trackable_object_.setEmptyflag_camera2(false);
+    trackable_object_.setEmptyflag_camera3(false);
+
 //Cam123_sync
     subscribeToCam123();
     posPublisher = nh_.advertise<geometry_msgs::Pose>("target_pose", 10);
@@ -232,6 +237,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
   else//cam1 is empty
   {
     cout <<"cam1 is empty!" <<endl; //predict pose, recordtime
+    trackable_object_.setEmptyflag_camera1(true);
 
   }//-----------cam1-------------
 
@@ -283,6 +289,9 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
   else//cam2 is empty
   {
     cout <<"cam2 is empty!" <<endl;
+    trackable_object_.setEmptyflag_camera2(true);
+    bool msg2_empty = trackable_object_.getEmptyflag_camera2();
+
 
   }//-----------cam2-------------
 
@@ -326,11 +335,140 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
   }
   else//cam3 is empty
   {
-    cout <<"cam3 is empty!" <<endl;
+    cout<<"cam3 is empty!"<<endl;
+    //get etime at which empty msg was receive. This time is used to calculate the estimated pose
+    double time_to_predict = cam3_msg->header.stamp.toSec();
+    trackable_object_.setEmptyflag_camera3(true);
+//    trackable_object_.predictPose(time_to_predict);//specified
 
   }//-----------cam3-------------
 
-}
+  bool cam1_msg_empty = trackable_object_.getEmptyflag_camera1();
+  bool cam2_msg_empty = trackable_object_.getEmptyflag_camera2();
+  bool cam3_msg_empty = trackable_object_.getEmptyflag_camera3();
+
+  int checksum = 4*cam1_msg_empty+2*cam2_msg_empty+1*cam3_msg_empty;//
+  cout<<"checksum"<<endl;
+  cout<<checksum<<endl;
+  //visualization target
+  static tf::TransformBroadcaster br_target;//current target
+  tf::Transform target_TF;
+  switch (checksum)
+  {
+    case 7: //111 all empty
+    {
+      //use predict
+        break;
+    }
+    case 6: //110
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=trackable_object_.getCurrentPose_cam3();
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+    case 5: //100
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=(trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/2.0;
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+
+    case 4: //101
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=trackable_object_.getCurrentPose_cam2();
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+
+    case 3: //011
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=trackable_object_.getCurrentPose_cam1();
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+    case 2: //010
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam3())/2.0;
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+    case 1: //001
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2())/2.0;
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+    case 0: //000
+    {
+      Eigen::Matrix4d transform_target;
+      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/3.0;
+      trackable_object_.setCurrentPose_target(transform_target);
+      tf::Transform target_TF=matrixToTf(transform_target);
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }//end switch
+    trackable_object_.setEmptyflag_camera1(false);
+    trackable_object_.setEmptyflag_camera2(false);
+    trackable_object_.setEmptyflag_camera3(false);
+//improve this part
+/*  if( cam1_msg_empty && cam2_msg_empty && cam3_msg_empty)//cam1,cam2,cam3 111
+  {
+
+  }
+  else if()//110
+  {
+
+  }
+  else if()//100
+  {
+
+  }
+  else if()//101
+  {
+
+  }
+  else if()//011
+  {
+
+  }
+  else if()//010
+  {
+
+  }
+  else if()//001
+  {
+
+  }
+  else// all camera no detection, use prediction
+  {
+
+  }
+*/
+
+}//end cam123_sub_callback
 
 
 

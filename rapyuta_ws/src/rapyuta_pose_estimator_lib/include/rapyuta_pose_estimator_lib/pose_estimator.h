@@ -40,28 +40,44 @@ class PoseEstimator
         bool cam2_since_initialized_;
         bool cam3_since_initialized_;
 
+        //check empty msg
+        bool cam1_msg_empty_;
+        bool cam2_msg_empty_;
+        bool cam3_msg_empty_;
+
+
+
+
         //the initial relationship between cam2-cam1 cam3-cam1
         Eigen::Matrix4d cam3_relateTo_cam1;
         Eigen::Matrix4d cam2_relateTo_cam1;
 
-        //pose for cam1 cam2 cam3
+        //pose for cam1 cam2 cam3 target
+        //previous
         Eigen::Matrix4d cam1_previous_pose;
         Eigen::Matrix4d cam2_previous_pose;
         Eigen::Matrix4d cam3_previous_pose;
+        Eigen::Matrix4d target_previous_pose;
 
+        //current
         Eigen::Matrix4d cam1_current_pose;
         Eigen::Matrix4d cam2_current_pose;
         Eigen::Matrix4d cam3_current_pose;
+        Eigen::Matrix4d target_current_pose;
+
+
 
         //set and get current time
         double cam1_current_time_;
         double cam2_current_time_;
         double cam3_current_time_;
+        double target_current_time_;
 
         //set and get previous time
         double cam1_previous_time_;
         double cam2_previous_time_;
         double cam3_previous_time_;
+        double target_previous_time_;
 
     public:
         cv::Mat camera_matrix_K_; //!< Variable to store the camera matrix as an OpenCV matrix
@@ -83,6 +99,9 @@ class PoseEstimator
         Eigen::Matrix4d getCurrentPose_cam3();
         void setCurrentPose_cam3(const Eigen::Matrix4d & pose, double time);
 
+        Eigen::Matrix4d getCurrentPose_target();
+        void setCurrentPose_target(const Eigen::Matrix4d & pose);
+
         //set and get previous pose
         Eigen::Matrix4d getPreviousPose_cam1();
         void setPreviousPose_cam1(const Eigen::Matrix4d & pose, double time);
@@ -91,7 +110,8 @@ class PoseEstimator
         Eigen::Matrix4d getPreviousPose_cam3();
         void setPreviousPose_cam3(const Eigen::Matrix4d & pose, double time);
 
-
+        Eigen::Matrix4d getPreviousPose_target();
+        void setPreviousPose_target(const Eigen::Matrix4d & pose);
 
 
         //get initial capture time
@@ -102,11 +122,25 @@ class PoseEstimator
         *get initialize staus
         */
         void setInitialStatus_camera1(bool hasInitialize_cam1);
-        double getInitialStatus_camera1();
+        bool getInitialStatus_camera1();
         void setInitialStatus_camera2(bool hasInitialize_cam2);
-        double getInitialStatus_camera2();
+        bool getInitialStatus_camera2();
         void setInitialStatus_camera3(bool hasInitialize_cam3);
-        double getInitialStatus_camera3();
+        bool getInitialStatus_camera3();
+
+        /**
+        * check empty msg
+        */
+        void setEmptyflag_camera1(bool cam1_empty_);
+        bool getEmptyflag_camera1();
+
+        void setEmptyflag_camera2(bool cam2_empty_);
+        bool getEmptyflag_camera2();
+
+        void setEmptyflag_camera3(bool cam3_empty_);
+        bool getEmptyflag_camera3();
+
+
         /**
         *set and get initial relationship between cam3-cam1 cam2-cam1
         */
