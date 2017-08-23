@@ -43,6 +43,12 @@ class PoseEstimator
         //the initial relationship between cam2-cam1 cam3-cam1
         Eigen::Matrix4d cam3_relateTo_cam1;
         Eigen::Matrix4d cam2_relateTo_cam1;
+
+        //pose for cam1 cam2 cam3
+        Eigen::Matrix4d cam1_previous_pose;
+        Eigen::Matrix4d cam2_previous_pose;
+        Eigen::Matrix4d cam3_previous_pose;
+
     public:
         cv::Mat camera_matrix_K_; //!< Variable to store the camera matrix as an OpenCV matrix
         std::vector<double>camera_distortion_coeffs_;//!< Variable to store the camera distortion parameters

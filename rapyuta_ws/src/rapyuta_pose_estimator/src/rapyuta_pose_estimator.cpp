@@ -184,9 +184,9 @@ cout <<"from cam123_sub callback!!!!!!!!!" <<endl;
  Cam123_inputSynchronizer.reset( new Synchronizer(Cam123_SyncPolicy(10), *Cam123_Cam1_Subscriber, *Cam123_Cam2_Subscriber, *Cam123_Cam3_Subscriber) );
  Cam123_inputSynchronizer->registerCallback(boost::bind(&rapyuta_pose_estimator::TSNode::cam123_sub_callback, this, _1,_2,_3));
 
- int circular_buffer_size = 10;
- BufferType dataBuffer(circular_buffer_size);
- cam123_bufferVector.push_back(dataBuffer);
+ int circular_buffer_size = 10;//not using now
+ BufferType dataBuffer(circular_buffer_size);//not using now
+ cam123_bufferVector.push_back(dataBuffer);//not using now
 
 
 }
@@ -208,8 +208,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       tf::Transform transform1;
       //
       transform_cam1_static=trackable_object_.getInitPose_cam1();
-      transform_cam1 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam1_msg) )*getMatrixInverse(transform_cam1_static) );//get current cam1(mother) <--tags
-
+//      transform_cam1 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam1_msg) )*getMatrixInverse(transform_cam1_static) );//get current cam1(mother) <--tags
+        transform_cam1 = transform_cam1_static*poselistToTransform(cam1_msg);
 
 
       //visualize
@@ -229,7 +229,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
   }
   else//cam1 is empty
   {
-    cout <<"cam1 is empty!" <<endl;
+    cout <<"cam1 is empty!" <<endl; //predict pose, recordtime
 
   }//-----------cam1-------------
 
@@ -321,11 +321,15 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_cam3 =getMatrixInverse( poselistToTransform(cam3_msg));//get current cam3 <--tags
       transform_cam3_static=trackable_object_.getInitPose_cam3();
   //    cam3tag_observe=cam3tagMeasurement(transform_cam3); // get apriltag measurement from cam3
+//      transform_cam3 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam3_msg) )*getMatrixInverse(transform_cam3_static) );
+      transform_cam3 = transform_cam3_static*poselistToTransform(cam3_msg);
+      cout <<"cam2!" <<endl;
+      cout <<transform_cam2<<endl;
 
       //visualize
       transform3=matrixToTf(transform_cam3);
       transform3_static=matrixToTf(transform_cam3_static);//init
-      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "map", "camera3"));// publish cam3 tag measurement from cam1 corordinate system
+      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "map", "apriltag3"));// publish cam3 tag measurement from cam1 corordinate system
       br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "map", "camera3_static"));//publish cam1<---cam3
 
     }
