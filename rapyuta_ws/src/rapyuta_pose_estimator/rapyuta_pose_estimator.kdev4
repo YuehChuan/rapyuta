@@ -1,0 +1,3 @@
+[Project]
+Manager=KDevCMakeManager
+Name=rapyuta_pose_estimator

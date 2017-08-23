@@ -7,13 +7,18 @@
 //syncronize apriltags subscription in tags_sub.h
 //apriltags message
 #include "rapyuta_pose_estimator/rapyuta_pose_estimator.h"
-
+#include <rapyuta_pose_estimator/ros/params.h>
 //TF
 #include <tf/transform_broadcaster.h>
 
 //use sophus for transformation
 #include "sophus/so3.h"
 #include "sophus/se3.h"
+
+//delete
+#include <geometry_msgs/PoseArray.h>
+#include <geometry_msgs/Pose.h>
+
 
 namespace rapyuta_pose_estimator
 {
@@ -24,16 +29,23 @@ TSNode::TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private) :nh
     trackable_object_.setInitialStatus_camera1(false);
     trackable_object_.setInitialStatus_camera2(false);
     trackable_object_.setInitialStatus_camera3(false);
-    cam1_pose_sub_ = nh_.subscribe("/rapyuta01/usb_cam/apriltags/detections", 10, &TSNode::tags_sub1, this);
-    cam2_pose_sub_= nh_.subscribe("/rapyuta02/usb_cam/apriltags/detections", 10, &TSNode::tags_sub2, this);
-    cam3_pose_sub_ = nh_.subscribe("/rapyuta03/usb_cam/apriltags/detections", 10, &TSNode::tags_sub3, this);
+
+//Cam123_sync
+    subscribeToCam123();
+    posPublisher = nh_.advertise<geometry_msgs::Pose>("target_pose", 10);
+//subscriber
+//    cam1_pose_sub_ = nh_.subscribe("/rapyuta01/usb_cam/apriltags/detections", 10, &TSNode::tags_sub1, this);
+//    cam2_pose_sub_= nh_.subscribe("/rapyuta02/usb_cam/apriltags/detections", 10, &TSNode::tags_sub2, this);
+//    cam3_pose_sub_ = nh_.subscribe("/rapyuta03/usb_cam/apriltags/detections", 10, &TSNode::tags_sub3, this);
 
     //syncronizer subscriber pair
+/*
     message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> cam12_cam1_sub(nh_,"/rapyuta01/usb_cam/apriltags/detections", 10);
     message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> cam12_cam2_sub(nh_,"/rapyuta02/usb_cam/apriltags/detections", 10);
-    message_filters::Synchronizer<Cam12_SyncPolicy> sync(Cam12_SyncPolicy(50), cam12_cam1_sub, cam12_cam2_sub);
-   sync.registerCallback(boost::bind(&rapyuta_pose_estimator::TSNode::cam12_sub_callback,this, _1, _2)); //why?
-
+    message_filters::Synchronizer<Cam12_SyncPolicy> sync(Cam12_SyncPolicy(10), cam12_cam1_sub, cam12_cam2_sub);
+   sync.registerCallback(boost::bind(&rapyuta_pose_estimator::TSNode::cam12_sub_callback,this, _1, _2));
+   cout<<"YOOOOOOOOOOOOOOOOOOOOOOOO"<<endl;
+*/
 }
 
 TSNode::~TSNode()
@@ -64,8 +76,9 @@ void TSNode::tags_sub1(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 
       if(cam1status== false)
       {
-//      trackable_object_.setInitPose_cam1(InitHomogenious_cam1,cam1_time_get_msg );
-//      trackable_object_.setInitialStatus_camera1(true);
+      trackable_object_.setInitPose_cam1(transform_cam1,cam1_time_get_msg );
+      trackable_object_.setInitialStatus_camera1(true);
+
       }
 
       Eigen::Matrix4d cam1_inverse=getMatrixInverse(transform_cam1);
@@ -161,12 +174,177 @@ void TSNode::tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg)
 
 //----------------syncronize subscriber----------------
 
-void TSNode::cam12_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg)
+void TSNode::subscribeToCam123()
 {
+cout <<"from cam123_sub callback!!!!!!!!!" <<endl;
 
-cout <<"from cam12_sub callback!!!!!!!!!" <<endl;
+ Cam123_Cam1_Subscriber.reset( new message_filters::Subscriber<rapyuta_msgs::AprilTagDetections>(nh_, "/rapyuta01/usb_cam/apriltags/detections", 10) );
+ Cam123_Cam2_Subscriber.reset (new message_filters::Subscriber<rapyuta_msgs::AprilTagDetections>(nh_, "/rapyuta02/usb_cam/apriltags/detections", 10) );
+ Cam123_Cam3_Subscriber.reset (new message_filters::Subscriber<rapyuta_msgs::AprilTagDetections>(nh_, "/rapyuta03/usb_cam/apriltags/detections", 10) );
+ Cam123_inputSynchronizer.reset( new Synchronizer(Cam123_SyncPolicy(10), *Cam123_Cam1_Subscriber, *Cam123_Cam2_Subscriber, *Cam123_Cam3_Subscriber) );
+ Cam123_inputSynchronizer->registerCallback(boost::bind(&rapyuta_pose_estimator::TSNode::cam123_sub_callback, this, _1,_2,_3));
+
+ int circular_buffer_size = 10;
+ BufferType dataBuffer(circular_buffer_size);
+ cam123_bufferVector.push_back(dataBuffer);
+
 
 }
+
+void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam3_msg)
+{
+  //----------cam1--------------(set as original global (0,0,0) )
+  if( (cam1_msg->detections.empty()) == false )//check cam1_msg got detection or not
+  {
+    static tf::TransformBroadcaster br1_origin;//original cam1_pose for visualizing camera position
+    static tf::TransformBroadcaster br1;//current cam1(mother) <--tags
+
+    if( (trackable_object_.getInitialStatus_camera1())== true)
+    {
+      //visualize
+      Eigen::Matrix4d transform_cam1_static;
+      Eigen::Matrix4d transform_cam1;//current
+      tf::Transform transform1_static;
+      tf::Transform transform1;
+      //
+      transform_cam1_static=trackable_object_.getInitPose_cam1();
+      transform_cam1 =getMatrixInverse( poselistToTransform(cam1_msg) );//get current cam1(mother) <--tags
+
+
+      //visualize
+      transform1=matrixToTf(transform_cam1);
+      transform1_static=matrixToTf(transform_cam1_static);//init
+      br1.sendTransform(tf::StampedTransform(transform1, ros::Time::now(), "apriltag","camera1" ));
+      br1_origin.sendTransform(tf::StampedTransform(transform1_static, ros::Time::now(),"apriltag", "camera1_static"));
+    }
+    else //If it is first cam1 than initialize
+    {
+      double cam1_time_get_msg = cam1_msg->header.stamp.toSec();
+      Eigen::Matrix4d transform_cam1;
+      transform_cam1 =getMatrixInverse( poselistToTransform(cam1_msg) ); // read msg and convert  to 4x4 homogeniousmatrix
+      trackable_object_.setInitPose_cam1(transform_cam1,cam1_time_get_msg );
+      trackable_object_.setInitialStatus_camera1(true);
+    }
+  }
+  else//cam1 is empty
+  {
+    cout <<"cam1 is empty!" <<endl;
+
+  }//-----------cam1-------------
+
+  //----------cam2--------------
+  if( (cam2_msg->detections.empty()) == false )//check cam2_msg got detection or not
+  {
+    static tf::TransformBroadcaster br2_origin;//original cam2_pose relate to cam1   cam1<---cam2
+    static tf::TransformBroadcaster br2;//current cam1(mother) <--cam2
+
+    static tf::TransformBroadcaster br4;//current cam2(mother) <--tag // test
+    geometry_msgs::Pose target_pose;//for rqt_value
+    if( (trackable_object_.getInitialStatus_camera2())== true)
+    {
+      //visualize
+      Eigen::Matrix4d transform_cam2_static;
+      Eigen::Matrix4d transform_cam2;//current
+      Eigen::Matrix4d cam2tag_observe;//apriltag observe from cam2
+      tf::Transform transform2_static;
+      tf::Transform transform2;
+      //
+//      transform_cam2_static=trackable_object_.getInitialRelation_cam1Tocam2();// init cam1<---cam2
+      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg) );//get current cam2 <--tags
+      transform_cam2_static=trackable_object_.getInitPose_cam2();
+
+
+//      cam2tag_observe=cam2tagMeasurement(transform_cam2); // get apriltag measurement from cam2
+
+      //test
+//      tf::Transform transform4;
+//      transform4=setTFfromMsg(cam2_msg);
+//posPublisher
+      // get publish topic euler angle
+//      Eigen::Vector3d euler_angles = ( cam3tag_observe.block(0,0,3,3) ).eulerAngles(2,1,0);//ZXY yaw,pitch roll
+/*              Eigen::Quaterniond q;
+              Eigen::Matrix3d rot=cam2tag_observe.block(0,0,3,3);
+              q = Eigen::Quaterniond(rot);
+              target_pose.position.x=cam2tag_observe(0,3);
+              target_pose.position.y=cam2tag_observe(1,3);
+              target_pose.position.z=cam2tag_observe(2,3);
+              target_pose.orientation.x= q.x();
+              target_pose.orientation.y= q.y();
+              target_pose.orientation.z= q.z();
+              target_pose.orientation.w= q.w();
+              posPublisher.publish(target_pose);//publish pose
+*/
+      //visualize
+      transform2=matrixToTf(transform_cam2);
+      transform2_static=matrixToTf(transform_cam2_static);//init
+      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "apriltag", "camera2"));// publish cam2 tag measurement from cam1 corordinate system
+      br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "apriltag", "camera2_static"));
+
+      //test
+//      br4.sendTransform(tf::StampedTransform(transform4, ros::Time::now(), "camera2", "apriltag-test"));//publish cam2<---tag
+
+
+    }
+    else //If it is first cam2 than initialize
+    {
+      double cam2_time_get_msg = cam2_msg->header.stamp.toSec();
+      Eigen::Matrix4d transform_cam2;
+      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg)); // read msg and convert  to 4x4 homogeniousmatrix
+      trackable_object_.setInitPose_cam2(transform_cam2,cam2_time_get_msg );
+      trackable_object_.setInitialStatus_camera2(true);
+      setInit_cam1Tocam2(transform_cam2);
+    }
+  }
+  else//cam2 is empty
+  {
+    cout <<"cam2 is empty!" <<endl;
+
+  }//-----------cam2-------------
+
+  //----------cam3--------------
+  if( (cam3_msg->detections.empty()) == false )//check cam3_msg got detection or not
+  {
+    static tf::TransformBroadcaster br3_origin;//original cam3_pose relate to cam1   cam1<---cam2
+    static tf::TransformBroadcaster br3;//current cam1(mother) <--cam3
+    if( (trackable_object_.getInitialStatus_camera3())== true)
+    {
+      //visualize
+      Eigen::Matrix4d transform_cam3_static;
+      Eigen::Matrix4d transform_cam3;//current
+      Eigen::Matrix4d cam3tag_observe;//apriltag observe from cam2
+      tf::Transform transform3_static;
+      tf::Transform transform3;
+
+//      transform_cam3_static=trackable_object_.getInitialRelation_cam1Tocam3();// init cam1<---cam3
+      transform_cam3 =getMatrixInverse( poselistToTransform(cam3_msg));//get current cam3 <--tags
+      transform_cam3_static=trackable_object_.getInitPose_cam3();
+  //    cam3tag_observe=cam3tagMeasurement(transform_cam3); // get apriltag measurement from cam3
+
+      //visualize
+      transform3=matrixToTf(transform_cam3);
+      transform3_static=matrixToTf(transform_cam3_static);//init
+      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "apriltag", "camera3"));// publish cam3 tag measurement from cam1 corordinate system
+      br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "apriltag", "camera3_static"));//publish cam1<---cam3
+
+    }
+    else //If it is first cam3 than initialize
+    {
+      double cam3_time_get_msg = cam3_msg->header.stamp.toSec();
+      Eigen::Matrix4d transform_cam3;
+      transform_cam3 =getMatrixInverse(poselistToTransform(cam3_msg)); // read msg and convert  to 4x4 homogeniousmatrix
+      trackable_object_.setInitPose_cam3(transform_cam3,cam3_time_get_msg );
+      trackable_object_.setInitialStatus_camera3(true);
+      setInit_cam1Tocam3(transform_cam3);
+    }
+  }
+  else//cam3 is empty
+  {
+    cout <<"cam3 is empty!" <<endl;
+
+  }//-----------cam3-------------
+
+}
+
 
 
 
@@ -222,7 +400,6 @@ tf::Transform TSNode::matrixToTf( const Eigen::Matrix4d inputMatrix_4x4)
   tf::vectorEigenToTF (pos,v_cam);
   transform.setOrigin(v_cam);
   transform.setBasis(R_matrix_cam);
-
   return transform;
 }
 
@@ -286,7 +463,7 @@ Eigen::Matrix4d  TSNode::getMatrixInverse( const Eigen::Matrix4d inputMat4x4)
   Eigen::Matrix3d transpose_Rotation;
   Eigen::Vector3d original_Translation;
   Eigen::Vector3d translation;
-  Eigen::Matrix4d outputMat4x4;
+  Eigen::Matrix4d outputMat4x4 = Eigen::Matrix4d::Identity();
 
   original_Rotation=inputMat4x4.block(0,0,3,3);
   original_Translation(0) = inputMat4x4(0,3);
@@ -316,7 +493,7 @@ Eigen::Matrix4d  TSNode::getMatrixInverse( const Eigen::Matrix3d inputRot3x3, co
 
   Eigen::Matrix3d transpose_Rotation;
   Eigen::Vector3d translation;
-  Eigen::Matrix4d outputMat4x4;
+  Eigen::Matrix4d outputMat4x4 = Eigen::Matrix4d::Identity();
 
   transpose_Rotation=inputRot3x3.transpose();
   translation= -transpose_Rotation*inputVec;
@@ -344,9 +521,7 @@ void TSNode::InverseTimeBenchmark(const Eigen::Matrix4d inputMat4x4)
         cout<<"time use in transpose inverse is" << 1000*(clock()-time_stt1)/(double)CLOCKS_PER_SEC<<"ms"<<endl;
         cout<<"transpose inverse result is :"<<endl;
         cout<<inv_1<<endl;
-
-
-        Eigen::Matrix4d Identity=Eigen::Matrix4d::Identity();;
+        Eigen::Matrix4d Identity= Eigen::Matrix4d::Identity();
         clock_t time_stt2 = clock();//start
 
         inv_2= inputMat4x4.colPivHouseholderQr().solve(Identity);
@@ -360,9 +535,50 @@ void TSNode::InverseTimeBenchmark(const Eigen::Matrix4d inputMat4x4)
 //---------------Matrix and vector arithmetic(above part)------------------------------------
 
 
+//set initial relationship between cam1_cam2 cam1_cam3
+void TSNode::setInit_cam1Tocam2(const Eigen::Matrix4d inputMat4x4)//input cam2<--apriltag
+{
+    /*    Eigen::Matrix4d cam1_init=trackable_object_.getInitPose_cam1();//get cam1<---tag init
+        //note: T(1<--2) = T(tag<---2)*T(1<---tag)
+        Eigen::Matrix4d inv_cam2;
+        Eigen::Matrix4d result;
+        inv_cam2 = getMatrixInverse(inputMat4x4);
+        result=inv_cam2*cam1_init;
+        trackable_object_.setInitialRelation_cam1Tocam2( result); // T(1<--2) = ( T(2<---tag).inverse)*T(1<---tag)
+      */
+      Eigen::Matrix4d cam1_init=trackable_object_.getInitPose_cam1();
+      //note: T(1<--2) = T(tag<---2)*T(1<---tag)
+
+      trackable_object_.setInitialRelation_cam1Tocam2( getMatrixInverse(inputMat4x4)*cam1_init); // T(1<--2) = ( T(2<---tag).inverse)*T(1<---tag)
+}
+void TSNode::setInit_cam1Tocam3(const Eigen::Matrix4d inputMat4x4)
+{
+        Eigen::Matrix4d cam1_init=trackable_object_.getInitPose_cam1();//get cam3<---tag init
+        //note: T(1<--3) = T(tag<---3)*T(1<---tag)
+
+        Eigen::Matrix4d check=getMatrixInverse(inputMat4x4);
+        cout<<"check cam3 inverse:"<<endl;
+        cout<<check<<endl;
+        trackable_object_.setInitialRelation_cam1Tocam3( getMatrixInverse(inputMat4x4)*cam1_init); // T(1<--3) = ( T(3<---tag).inverse)*T(1<---tag)
+}
+//---------------Set initialal relationship between cam1_cam2 cam1_cam3
 
 
-
+//---------------Calculate  apriltag measurement from cam2,cam3(transform to cam1<--tag)
+Eigen::Matrix4d  TSNode::cam2tagMeasurement(const Eigen::Matrix4d inputMat4x4)
+{
+        Eigen::Matrix4d cam2_tagMeasurement;
+        //note measurement fromCam2  T(1<---2)*T(2<---tag)
+        cam2_tagMeasurement = ( trackable_object_.getInitialRelation_cam1Tocam2() )*inputMat4x4;
+        return cam2_tagMeasurement;
+}
+Eigen::Matrix4d  TSNode::cam3tagMeasurement(const Eigen::Matrix4d inputMat4x4)
+{
+        Eigen::Matrix4d cam3_tagMeasurement;
+        //note measurement fromCam3  T(1<---3)*T(3<---tag)
+        cam3_tagMeasurement = ( trackable_object_.getInitialRelation_cam1Tocam3() )*inputMat4x4;
+        return cam3_tagMeasurement;
+}
 
 
 

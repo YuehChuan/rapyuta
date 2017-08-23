@@ -57,7 +57,10 @@ include_directories(
   ${Sophus_INCLUDE_DIRS}
   )
 
-add_executable(rapyuta_pose_estimator src/node.cpp src/rapyuta_pose_estimator.cpp)
+
+
+
+add_executable(rapyuta_pose_estimator src/node.cpp src/rapyuta_pose_estimator.cpp )
 
 add_dependencies(rapyuta_pose_estimator ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 

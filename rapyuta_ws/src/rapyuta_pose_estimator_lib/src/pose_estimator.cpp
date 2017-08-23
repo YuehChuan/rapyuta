@@ -285,6 +285,26 @@ void PoseEstimator::setInitialRelation_cam1Tocam2(const Eigen::Matrix4d & pose)
 }
 
 
+//get and set "Current" relationship
+Eigen::Matrix4d PoseEstimator::getCurrentRelation_cam1Tocam2()
+{
+  return cam2_relateTo_cam1;
+}
+Eigen::Matrix4d PoseEstimator::getCurrentRelation_cam1Tocam3()
+{
+  return cam3_relateTo_cam1;
+}
+void PoseEstimator::setCurrentRelation_cam1Tocam3(const Eigen::Matrix4d & pose)
+{
+  cam3_relateTo_cam1 = pose;
+  //cam3_initialize_time_ = time;
+}
+void PoseEstimator::setCurrentRelation_cam1Tocam2(const Eigen::Matrix4d & pose)
+{
+  cam2_relateTo_cam1 = pose;
+  //cam3_initialize_time_ = time;
+}
+
 
 
 }//namespace

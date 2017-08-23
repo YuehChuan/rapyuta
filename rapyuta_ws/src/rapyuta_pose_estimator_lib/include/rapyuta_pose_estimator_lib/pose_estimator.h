@@ -75,6 +75,15 @@ class PoseEstimator
         Eigen::Matrix4d getInitialRelation_cam1Tocam3();
         void setInitialRelation_cam1Tocam3(const Eigen::Matrix4d & pose);
         void setInitialRelation_cam1Tocam2(const Eigen::Matrix4d & pose);
+
+        /**
+        *set and get "CURRENT" relationship between cam3-cam1 cam2-cam1
+        */
+        Eigen::Matrix4d getCurrentRelation_cam1Tocam2();
+        Eigen::Matrix4d getCurrentRelation_cam1Tocam3();
+        void setCurrentRelation_cam1Tocam3(const Eigen::Matrix4d & pose);
+        void setCurrentRelation_cam1Tocam2(const Eigen::Matrix4d & pose);
+
     private:
         /*Computes the exponential map from a twist to a homogeneous transformation matrix
          *

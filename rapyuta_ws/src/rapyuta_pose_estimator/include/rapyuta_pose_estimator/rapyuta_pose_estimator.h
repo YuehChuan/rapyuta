@@ -13,6 +13,11 @@
 #include <message_filters/time_synchronizer.h>
 #include<message_filters/sync_policies/approximate_time.h>
 
+//syncronize data collection
+#include <boost/shared_ptr.hpp>
+#include <boost/circular_buffer.hpp>
+#include <tuple>//for std::tuple
+
 //apriltags message
 #include "rapyuta_msgs/AprilTagDetection.h"
 #include "rapyuta_msgs/AprilTagDetections.h"
@@ -32,8 +37,8 @@
 #include <ctime>
 
 using namespace std;
-typedef message_filters::sync_policies::ApproximateTime<rapyuta_msgs::AprilTagDetections, rapyuta_msgs::AprilTagDetections> Cam12_SyncPolicy;
-
+typedef message_filters::sync_policies::ApproximateTime<rapyuta_msgs::AprilTagDetections, rapyuta_msgs::AprilTagDetections, rapyuta_msgs::AprilTagDetections> Cam123_SyncPolicy;
+typedef message_filters::Synchronizer<Cam123_SyncPolicy> Synchronizer;
 namespace rapyuta_pose_estimator
 {
 
@@ -47,6 +52,22 @@ class TSNode
        ros::Subscriber cam2_pose_sub_;
        ros::Subscriber cam3_pose_sub_;
        PoseEstimator trackable_object_;
+
+       //cam123 sync
+       boost::shared_ptr<message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> > Cam123_Cam1_Subscriber;
+       boost::shared_ptr<message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> > Cam123_Cam2_Subscriber;
+       boost::shared_ptr<message_filters::Subscriber<rapyuta_msgs::AprilTagDetections> > Cam123_Cam3_Subscriber;
+       boost::shared_ptr<Synchronizer> Cam123_inputSynchronizer;
+       void subscribeToCam123(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam3_msg);
+       //cam123 collect data
+       typedef std::tuple<rapyuta_msgs::AprilTagDetections::ConstPtr,rapyuta_msgs::AprilTagDetections::ConstPtr,rapyuta_msgs::AprilTagDetections::ConstPtr> cam1_msgAndcam2_msgAndcam3_msg;
+       typedef boost::circular_buffer<cam1_msgAndcam2_msgAndcam3_msg> BufferType;
+       std::vector<BufferType> cam123_bufferVector;
+
+       //Publisher
+       ros::Publisher posPublisher;
+
+
     public:
        TSNode(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
        TSNode() : TSNode( ros::NodeHandle(), ros::NodeHandle("~") ){}
@@ -57,7 +78,8 @@ class TSNode
        void tags_sub3(const rapyuta_msgs::AprilTagDetections::ConstPtr& msg);
 
        //syncronize Subscriber pair
-       void cam12_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg);
+       void cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg,const rapyuta_msgs::AprilTagDetections::ConstPtr& cam3_msg);
+       void subscribeToCam123();
 
        //object to track  can it put in private????
 
@@ -76,7 +98,13 @@ class TSNode
        Eigen::Matrix4d  getMatrixInverse( const Eigen::Matrix3d inputRot3x3, const Eigen::Vector3d inputVec);
        void InverseTimeBenchmark(const Eigen::Matrix4d inputMat4x4);
 
+       //set and get initial relationship between cam1_cam2 cam1_cam3
+       void setInit_cam1Tocam2(const Eigen::Matrix4d inputMat4x4);//input cam2<---apriltag
+       void setInit_cam1Tocam3(const Eigen::Matrix4d inputMat4x4);
 
+       //calculate measurement from cam2,cam3 (transform into cam1<---tag)
+       Eigen::Matrix4d  cam2tagMeasurement(const Eigen::Matrix4d inputMat4x4);
+       Eigen::Matrix4d  cam3tagMeasurement(const Eigen::Matrix4d inputMat4x4);
 };//end of class
 
 }//tags_sub namespace
