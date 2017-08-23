@@ -253,7 +253,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
 //      transform_cam2_static=trackable_object_.getInitialRelation_cam1Tocam2();// init cam1<---cam2
 //      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg) );//get current cam2 <--tags
       transform_cam2_static=trackable_object_.getInitPose_cam2();
-      transform_cam2 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam2_msg) )*getMatrixInverse(transform_cam2_static) );
+      transform_cam2 = transform_cam2_static*poselistToTransform(cam2_msg);
+//    transform_cam2 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam2_msg) )*getMatrixInverse(transform_cam2_static) );
 
 //      cam2tag_observe=cam2tagMeasurement(transform_cam2); // get apriltag measurement from cam2
 
