@@ -191,7 +191,7 @@
                                     <type>tf2_msgs/TFMessage</type>
                                 </x_axis>
                                 <y_axis>
-                                    <field>position/z</field>
+                                    <field></field>
                                     <field_type>0</field_type>
                                     <scale>
                                         <absolute_maximum>1000</absolute_maximum>
@@ -224,7 +224,7 @@
                                 <type>0</type>
                             </style>
                             <subscriber_queue_size>100</subscriber_queue_size>
-                            <title>Untitled Curve</title>
+                            <title>POSZ</title>
                         </curve_0>
                     </curves>
                     <legend>

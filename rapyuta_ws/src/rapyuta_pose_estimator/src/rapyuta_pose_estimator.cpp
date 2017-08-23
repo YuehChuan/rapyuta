@@ -430,43 +430,31 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       break;
     }
   }//end switch
+
+
+  //set back msg check value
     trackable_object_.setEmptyflag_camera1(false);
     trackable_object_.setEmptyflag_camera2(false);
     trackable_object_.setEmptyflag_camera3(false);
-//improve this part
-/*  if( cam1_msg_empty && cam2_msg_empty && cam3_msg_empty)//cam1,cam2,cam3 111
-  {
 
-  }
-  else if()//110
-  {
+//FOR logging the data
+// get publish topic euler angle
+//Eigen::Vector3d euler_angles = ( cam3tag_observe.block(0,0,3,3) ).eulerAngles(2,1,0);//ZXY yaw,pitch roll
+   geometry_msgs::Pose target_pose;
+   Eigen::Quaterniond q;
+   Eigen::Matrix4d target_;
+   target_= trackable_object_.getCurrentPose_target();
+   Eigen::Matrix3d rot=target_.block(0,0,3,3);
+   q = Eigen::Quaterniond(rot);
+   target_pose.position.x=target_(0,3);
+   target_pose.position.y=target_(1,3);
+   target_pose.position.z=target_(2,3);
+   target_pose.orientation.x= q.x();
+   target_pose.orientation.y= q.y();
+   target_pose.orientation.z= q.z();
+   target_pose.orientation.w= q.w();
+   posPublisher.publish(target_pose);//publish pose
 
-  }
-  else if()//100
-  {
-
-  }
-  else if()//101
-  {
-
-  }
-  else if()//011
-  {
-
-  }
-  else if()//010
-  {
-
-  }
-  else if()//001
-  {
-
-  }
-  else// all camera no detection, use prediction
-  {
-
-  }
-*/
 
 }//end cam123_sub_callback
 
