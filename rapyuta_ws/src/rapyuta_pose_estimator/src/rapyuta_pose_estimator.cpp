@@ -206,11 +206,13 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       Eigen::Matrix4d transform_cam1;//current pose
       tf::Transform transform1_static;
       tf::Transform transform1;
-      //
-      transform_cam1_static=trackable_object_.getInitPose_cam1();
-//      transform_cam1 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam1_msg) )*getMatrixInverse(transform_cam1_static) );//get current cam1(mother) <--tags
-        transform_cam1 = transform_cam1_static*poselistToTransform(cam1_msg);
+      double cam1_time_get_msg = cam1_msg->header.stamp.toSec();
 
+      transform_cam1_static=trackable_object_.getInitPose_cam1();
+
+      transform_cam1 = transform_cam1_static*poselistToTransform(cam1_msg);
+      trackable_object_.setPreviousPose_cam1(trackable_object_.getCurrentPose_cam1(),cam1_time_get_msg );
+      trackable_object_.setCurrentPose_cam1(transform_cam1,cam1_time_get_msg );
 
       //visualize
       transform1=matrixToTf(transform_cam1);
@@ -249,33 +251,14 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       Eigen::Matrix4d cam2tag_observe;//apriltag observe from cam2
       tf::Transform transform2_static;
       tf::Transform transform2;
-      //
-//      transform_cam2_static=trackable_object_.getInitialRelation_cam1Tocam2();// init cam1<---cam2
-//      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg) );//get current cam2 <--tags
+      double cam2_time_get_msg = cam2_msg->header.stamp.toSec();
+
       transform_cam2_static=trackable_object_.getInitPose_cam2();
       transform_cam2 = transform_cam2_static*poselistToTransform(cam2_msg);
-//    transform_cam2 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam2_msg) )*getMatrixInverse(transform_cam2_static) );
 
-//      cam2tag_observe=cam2tagMeasurement(transform_cam2); // get apriltag measurement from cam2
+      trackable_object_.setPreviousPose_cam2(trackable_object_.getCurrentPose_cam2(),cam2_time_get_msg );
+      trackable_object_.setCurrentPose_cam2(transform_cam2,cam2_time_get_msg );
 
-      //test
-//      tf::Transform transform4;
-//      transform4=setTFfromMsg(cam2_msg);
-//posPublisher
-      // get publish topic euler angle
-//      Eigen::Vector3d euler_angles = ( cam3tag_observe.block(0,0,3,3) ).eulerAngles(2,1,0);//ZXY yaw,pitch roll
-/*              Eigen::Quaterniond q;
-              Eigen::Matrix3d rot=cam2tag_observe.block(0,0,3,3);
-              q = Eigen::Quaterniond(rot);
-              target_pose.position.x=cam2tag_observe(0,3);
-              target_pose.position.y=cam2tag_observe(1,3);
-              target_pose.position.z=cam2tag_observe(2,3);
-              target_pose.orientation.x= q.x();
-              target_pose.orientation.y= q.y();
-              target_pose.orientation.z= q.z();
-              target_pose.orientation.w= q.w();
-              posPublisher.publish(target_pose);//publish pose
-*/
       //visualize
       transform2=matrixToTf(transform_cam2);
       transform2_static=matrixToTf(transform_cam2_static);//init
@@ -316,14 +299,13 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       Eigen::Matrix4d cam3tag_observe;//apriltag observe from cam2
       tf::Transform transform3_static;
       tf::Transform transform3;
+      double cam3_time_get_msg = cam3_msg->header.stamp.toSec();
 
-//      transform_cam3_static=trackable_object_.getInitialRelation_cam1Tocam3();// init cam1<---cam3
-      transform_cam3 =getMatrixInverse( poselistToTransform(cam3_msg));//get current cam3 <--tags
       transform_cam3_static=trackable_object_.getInitPose_cam3();
-  //    cam3tag_observe=cam3tagMeasurement(transform_cam3); // get apriltag measurement from cam3
-//      transform_cam3 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam3_msg) )*getMatrixInverse(transform_cam3_static) );
-      transform_cam3 = transform_cam3_static*poselistToTransform(cam3_msg);
 
+      transform_cam3 = transform_cam3_static*poselistToTransform(cam3_msg);
+      trackable_object_.setPreviousPose_cam3(trackable_object_.getCurrentPose_cam3(),cam3_time_get_msg );
+      trackable_object_.setCurrentPose_cam3(transform_cam3,cam3_time_get_msg );
 
       //visualize
       transform3=matrixToTf(transform_cam3);
@@ -562,8 +544,7 @@ void TSNode::setInit_cam1Tocam3(const Eigen::Matrix4d inputMat4x4)
         //note: T(1<--3) = T(tag<---3)*T(1<---tag)
 
         Eigen::Matrix4d check=getMatrixInverse(inputMat4x4);
-        cout<<"check cam3 inverse:"<<endl;
-        cout<<check<<endl;
+
         trackable_object_.setInitialRelation_cam1Tocam3( getMatrixInverse(inputMat4x4)*cam1_init); // T(1<--3) = ( T(3<---tag).inverse)*T(1<---tag)
 }
 //---------------Set initialal relationship between cam1_cam2 cam1_cam3
