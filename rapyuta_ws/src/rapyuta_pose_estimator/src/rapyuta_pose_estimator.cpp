@@ -203,19 +203,20 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     {
       //visualize
       Eigen::Matrix4d transform_cam1_static;
-      Eigen::Matrix4d transform_cam1;//current
+      Eigen::Matrix4d transform_cam1;//current pose
       tf::Transform transform1_static;
       tf::Transform transform1;
       //
       transform_cam1_static=trackable_object_.getInitPose_cam1();
-      transform_cam1 =getMatrixInverse( poselistToTransform(cam1_msg) );//get current cam1(mother) <--tags
+      transform_cam1 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam1_msg) )*getMatrixInverse(transform_cam1_static) );//get current cam1(mother) <--tags
+
 
 
       //visualize
       transform1=matrixToTf(transform_cam1);
       transform1_static=matrixToTf(transform_cam1_static);//init
-      br1.sendTransform(tf::StampedTransform(transform1, ros::Time::now(), "apriltag","camera1" ));
-      br1_origin.sendTransform(tf::StampedTransform(transform1_static, ros::Time::now(),"apriltag", "camera1_static"));
+      br1.sendTransform(tf::StampedTransform(transform1, ros::Time::now(), "map","apriltag" ));
+      br1_origin.sendTransform(tf::StampedTransform(transform1_static, ros::Time::now(),"map", "camera1_static"));
     }
     else //If it is first cam1 than initialize
     {
@@ -277,8 +278,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform2=matrixToTf(transform_cam2);
       transform2_static=matrixToTf(transform_cam2_static);//init
-      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "apriltag", "camera2"));// publish cam2 tag measurement from cam1 corordinate system
-      br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "apriltag", "camera2_static"));
+      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "camera2"));// publish cam2 tag measurement from cam1 corordinate system
+      br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "map", "camera2_static"));
 
       //test
 //      br4.sendTransform(tf::StampedTransform(transform4, ros::Time::now(), "camera2", "apriltag-test"));//publish cam2<---tag
@@ -323,8 +324,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform3=matrixToTf(transform_cam3);
       transform3_static=matrixToTf(transform_cam3_static);//init
-      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "apriltag", "camera3"));// publish cam3 tag measurement from cam1 corordinate system
-      br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "apriltag", "camera3_static"));//publish cam1<---cam3
+      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "map", "camera3"));// publish cam3 tag measurement from cam1 corordinate system
+      br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "map", "camera3_static"));//publish cam1<---cam3
 
     }
     else //If it is first cam3 than initialize
