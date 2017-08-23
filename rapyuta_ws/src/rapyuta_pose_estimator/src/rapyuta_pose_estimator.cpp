@@ -323,8 +323,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
   //    cam3tag_observe=cam3tagMeasurement(transform_cam3); // get apriltag measurement from cam3
 //      transform_cam3 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam3_msg) )*getMatrixInverse(transform_cam3_static) );
       transform_cam3 = transform_cam3_static*poselistToTransform(cam3_msg);
-      cout <<"cam2!" <<endl;
-      cout <<transform_cam2<<endl;
+
 
       //visualize
       transform3=matrixToTf(transform_cam3);
