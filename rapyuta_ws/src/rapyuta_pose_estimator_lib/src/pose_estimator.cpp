@@ -248,6 +248,98 @@ double PoseEstimator::getInitialStatus_camera3()
   return cam3_since_initialized_;
 }
 
+//set and get current camera pose
+//cam1
+void PoseEstimator::setCurrentPose_cam1(const Eigen::Matrix4d & pose, double time)
+{
+  cam1_current_pose = pose;
+  cam1_current_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getCurrentPose_cam1()
+{
+  return cam1_current_pose;
+}
+
+//set and get current camera pose
+//cam2
+void PoseEstimator::setCurrentPose_cam2(const Eigen::Matrix4d & pose, double time)
+{
+  cam2_current_pose = pose;
+  cam2_current_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getCurrentPose_cam2()
+{
+  return cam2_current_pose;
+}
+
+//set and get Previous camera pose
+//cam3
+void PoseEstimator::setCurrentPose_cam3(const Eigen::Matrix4d & pose, double time)
+{
+  cam3_current_pose = pose;
+  cam3_current_time_ = time;
+
+}
+
+Eigen::Matrix4d PoseEstimator::getCurrentPose_cam3()
+{
+  return cam3_current_pose;
+}
+
+//----------------------------------------------------------
+
+//set and get Previous camera pose
+//cam1
+void PoseEstimator::setPreviousPose_cam1(const Eigen::Matrix4d & pose, double time)
+{
+  cam1_previous_pose = pose;
+  cam1_previous_time_ = time;
+}
+
+Eigen::Matrix4d PoseEstimator::getPreviousPose_cam1()
+{
+  return cam1_previous_pose;
+}
+
+//set and get Previous camera pose
+//cam2
+void PoseEstimator::setPreviousPose_cam2(const Eigen::Matrix4d & pose, double time)
+{
+  cam2_previous_pose = pose;
+  cam2_previous_time_ = time;
+}
+
+Eigen::Matrix4d PoseEstimator::getPreviousPose_cam2()
+{
+  return cam2_previous_pose;
+}
+
+//set and get Previous camera pose
+//cam2
+void PoseEstimator::setPreviousPose_cam3(const Eigen::Matrix4d & pose, double time)
+{
+  cam3_previous_pose = pose;
+  cam3_previous_time_ = time;
+}
+
+Eigen::Matrix4d PoseEstimator::getPreviousPose_cam3()
+{
+  return cam3_previous_pose;
+}
+
+
+
+
+
+
+
+
+
+
 //get time camera capture time
 double PoseEstimator::getInitTime_cam1()
 {

@@ -53,6 +53,16 @@ class PoseEstimator
         Eigen::Matrix4d cam2_current_pose;
         Eigen::Matrix4d cam3_current_pose;
 
+        //set and get current time
+        double cam1_current_time_;
+        double cam2_current_time_;
+        double cam3_current_time_;
+
+        //set and get previous time
+        double cam1_previous_time_;
+        double cam2_previous_time_;
+        double cam3_previous_time_;
+
     public:
         cv::Mat camera_matrix_K_; //!< Variable to store the camera matrix as an OpenCV matrix
         std::vector<double>camera_distortion_coeffs_;//!< Variable to store the camera distortion parameters
@@ -64,6 +74,25 @@ class PoseEstimator
         void setInitPose_cam2(const Eigen::Matrix4d & pose, double time);
         Eigen::Matrix4d getInitPose_cam3();
         void setInitPose_cam3(const Eigen::Matrix4d & pose, double time);
+
+        //set and get current pose
+        Eigen::Matrix4d getCurrentPose_cam1();
+        void setCurrentPose_cam1(const Eigen::Matrix4d & pose, double time);
+        Eigen::Matrix4d getCurrentPose_cam2();
+        void setCurrentPose_cam2(const Eigen::Matrix4d & pose, double time);
+        Eigen::Matrix4d getCurrentPose_cam3();
+        void setCurrentPose_cam3(const Eigen::Matrix4d & pose, double time);
+
+        //set and get previous pose
+        Eigen::Matrix4d getPreviousPose_cam1();
+        void setPreviousPose_cam1(const Eigen::Matrix4d & pose, double time);
+        Eigen::Matrix4d getPreviousPose_cam2();
+        void setPreviousPose_cam2(const Eigen::Matrix4d & pose, double time);
+        Eigen::Matrix4d getPreviousPose_cam3();
+        void setPreviousPose_cam3(const Eigen::Matrix4d & pose, double time);
+
+
+
 
         //get initial capture time
         double getInitTime_cam1();
