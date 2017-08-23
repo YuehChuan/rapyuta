@@ -251,9 +251,9 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       tf::Transform transform2;
       //
 //      transform_cam2_static=trackable_object_.getInitialRelation_cam1Tocam2();// init cam1<---cam2
-      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg) );//get current cam2 <--tags
+//      transform_cam2 =getMatrixInverse(poselistToTransform(cam2_msg) );//get current cam2 <--tags
       transform_cam2_static=trackable_object_.getInitPose_cam2();
-
+      transform_cam2 =getMatrixInverse(getMatrixInverse( poselistToTransform(cam2_msg) )*getMatrixInverse(transform_cam2_static) );
 
 //      cam2tag_observe=cam2tagMeasurement(transform_cam2); // get apriltag measurement from cam2
 
@@ -278,7 +278,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform2=matrixToTf(transform_cam2);
       transform2_static=matrixToTf(transform_cam2_static);//init
-      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "camera2"));// publish cam2 tag measurement from cam1 corordinate system
+      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "apriltag2"));// publish cam2 tag measurement from cam1 corordinate system
       br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "map", "camera2_static"));
 
       //test
