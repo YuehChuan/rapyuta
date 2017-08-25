@@ -199,6 +199,8 @@ cout <<"from cam123_sub callback!!!!!!!!!" <<endl;
 void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPtr& cam1_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam2_msg, const rapyuta_msgs::AprilTagDetections::ConstPtr& cam3_msg)
 {
   //----------cam1--------------(set as original global (0,0,0) )
+
+
   if( (cam1_msg->detections.empty()) == false )//check cam1_msg got detection or not
   {
     static tf::TransformBroadcaster br1_origin;//original cam1_pose for visualizing camera position

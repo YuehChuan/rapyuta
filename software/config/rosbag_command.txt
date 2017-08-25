@@ -1,0 +1,8 @@
+Record:
+rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+
+play:
+rosbag play --clock xxxx.bag
+
+rosparam set use_sim_time true
+

@@ -34,8 +34,8 @@ set_base()
 
 set_ros()
 {
-  if [ -f $CODE_BASE/catkin_ws/devel/setup.bash ]; then
-    source $CODE_BASE/catkin_ws/devel/setup.bash
+  if [ -f $CODE_BASE/rapyuta_ws/devel/setup.bash ]; then
+    source $CODE_BASE/rapyuta_ws/devel/setup.bash
   else
     source /opt/ros/kinetic/setup.bash
   fi
@@ -120,7 +120,7 @@ function set_bash {
    export HISTTIMEFORMAT="%d/%m/%y %T "
 }
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 
 set_base
 set_ros

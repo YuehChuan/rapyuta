@@ -38,6 +38,60 @@ void PoseEstimator::predictPose(double time_to_predict)
     predicted_pose_ =current_pose_ * exponentialMap(delta_hat);
 }
 
+//predict pose cam1
+void PoseEstimator::predictPose_cam1(double time_to_predict)
+{
+    predicted_time_= time_to_predict;
+
+    //get difference of poses, then its twist coordinates
+    Vector6d delta = logarithmMap(cam1_previous_pose.inverse()* cam1_current_pose);
+
+    //extrapolate
+    Vector6d delta_hat = delta / ( cam1_current_time_ - cam1_previous_time_)*(predicted_time_ - cam1_current_time_);
+
+    //Predict new pose
+    cam1_predicted_pose =cam1_current_pose * exponentialMap(delta_hat);
+}
+
+//predict pose cam2
+void PoseEstimator::predictPose_cam2(double time_to_predict)
+{
+    predicted_time_= time_to_predict;
+
+    //get difference of poses, then its twist coordinates
+    Vector6d delta = logarithmMap(cam2_previous_pose.inverse()* cam2_current_pose);
+
+    //extrapolate
+    Vector6d delta_hat = delta / ( cam2_current_time_ - cam2_previous_time_)*(predicted_time_ - cam2_current_time_);
+
+    //Predict new pose
+    cam2_predicted_pose =cam2_current_pose * exponentialMap(delta_hat);
+}
+
+//predict pose cam3
+void PoseEstimator::predictPose_cam3(double time_to_predict)
+{
+    predicted_time_= time_to_predict;
+
+    //get difference of poses, then its twist coordinates
+    Vector6d delta = logarithmMap(cam3_previous_pose.inverse()* cam3_current_pose);
+
+    //extrapolate
+    Vector6d delta_hat = delta / ( cam3_current_time_ - cam3_previous_time_)*(predicted_time_ - cam1_current_time_);
+
+    //Predict new pose
+    cam3_predicted_pose =cam3_current_pose * exponentialMap(delta_hat);
+}
+
+
+
+
+
+
+
+
+
+
 void PoseEstimator::setPredictedTime(double time)
 {
     predicted_time_ = time;

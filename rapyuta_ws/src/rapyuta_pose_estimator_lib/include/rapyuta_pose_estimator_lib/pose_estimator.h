@@ -65,6 +65,13 @@ class PoseEstimator
         Eigen::Matrix4d cam3_current_pose;
         Eigen::Matrix4d target_current_pose;
 
+        //predicted
+        Eigen::Matrix4d cam1_predicted_pose;
+        Eigen::Matrix4d cam2_predicted_pose;
+        Eigen::Matrix4d cam3_predicted_pose;
+        Eigen::Matrix4d target_predicted_pose;
+
+
 
 
         //set and get current time
@@ -201,7 +208,12 @@ class PoseEstimator
         Eigen::Matrix4d getPredictedPose();
         Matrix6d getPoseCovariance();
 
+        //predicted pose
         void predictPose(double time_to_predict);
+        void predictPose_cam1(double time_to_predict);
+        void predictPose_cam2(double time_to_predict);
+        void predictPose_cam3(double time_to_predict);
+
 
         unsigned initialise();
         void updatePose();
