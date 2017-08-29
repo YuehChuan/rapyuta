@@ -1,0 +1,9 @@
+<!--html-->
+
+<launch>
+
+  <node name="command_pub_srv_node" pkg="navigation_controller"  type="command_pub_srv" output="screen">
+    <param name="file_path" type="string" value="/home/hosp/catkin_ws_jerry_test/src/navigation_controller/cmd_txt/cmd.txt" />
+  </node>
+
+</launch>

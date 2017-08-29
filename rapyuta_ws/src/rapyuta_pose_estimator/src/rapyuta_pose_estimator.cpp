@@ -694,6 +694,18 @@ Eigen::Matrix4d  TSNode::cam3tagMeasurement(const Eigen::Matrix4d inputMat4x4)
         return cam3_tagMeasurement;
 }
 
+//------------------rviz ignore transform--nor,alization---------------------------------------------------
+/*
+ROS_DEBUG("Pre normalisation, norm=%e", (poseMsg.transform.rotation.x * poseMsg.transform.rotation.x + poseMsg.transform.rotation.y * poseMsg.transform.rotation.y + poseMsg.transform.rotation.z * poseMsg.transform.rotation.z + poseMsg.transform.rotation.w * poseMsg.transform.rotation.w));
+		long double recipNorm = 1 / sqrt(poseMsg.transform.rotation.x * poseMsg.transform.rotation.x + poseMsg.transform.rotation.y * poseMsg.transform.rotation.y + poseMsg.transform.rotation.z * poseMsg.transform.rotation.z + poseMsg.transform.rotation.w * poseMsg.transform.rotation.w);
+		poseMsg.transform.rotation.x *= recipNorm;
+		poseMsg.transform.rotation.y *= recipNorm;
+		poseMsg.transform.rotation.z *= recipNorm;
+		poseMsg.transform.rotation.w *= recipNorm;
+		ROS_DEBUG("Post normalisation, norm=%e", (poseMsg.transform.rotation.x * poseMsg.transform.rotation.x + poseMsg.transform.rotation.y * poseMsg.transform.rotation.y + poseMsg.transform.rotation.z * poseMsg.transform.rotation.z + poseMsg.transform.rotation.w * poseMsg.transform.rotation.w));
+*/
+
+
 
 
 }//end name space

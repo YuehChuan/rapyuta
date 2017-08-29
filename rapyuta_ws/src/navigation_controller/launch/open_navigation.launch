@@ -1,0 +1,10 @@
+<!--html-->
+
+<launch>
+
+  <include file="$(find robot_basic)/launch/robot_basic.launch" />
+
+  <node name="calculat_navigation_cmd" pkg="navigation_controller"  type="navigation_controller" output="screen">
+  </node>
+
+</launch>

@@ -1,0 +1,13 @@
+<!--html-->
+
+<launch>
+
+  <arg name="use_rviz" default="true" />
+
+  <node name="playbag" pkg="rosbag" type="play" output="screen" required="true"
+      args="--clock -i /home/jerry/0814/2017-08-14-22-27-06.bag" />
+
+  <node name="rviz" pkg="rviz" type="rviz" if="$(arg use_rviz)" required="$(arg use_rviz)"
+    args="-d $(find navigation_controller)/configuration_files/guide.rviz" />
+ 
+</launch>

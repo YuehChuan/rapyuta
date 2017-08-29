@@ -1,0 +1,18 @@
+<!--html-->
+
+<launch>
+
+  <arg name="use_rviz" default="true" />
+
+  <include file="$(find robot_basic)/launch/robot_basic.launch" />
+
+  <node name="calculat_navigation_cmd" pkg="navigation_controller"  type="navigation_controller" output="screen">
+  </node>
+
+  <node name="tf_world_to_odom" pkg="tf" type="static_transform_publisher"
+      args="0 0 0 0 0 0 world odom 10" />
+
+  <node name="rviz" pkg="rviz" type="rviz" if="$(arg use_rviz)" required="$(arg use_rviz)"
+    args="-d $(find navigation_controller)/configuration_files/obstacle.rviz" />
+
+</launch>
