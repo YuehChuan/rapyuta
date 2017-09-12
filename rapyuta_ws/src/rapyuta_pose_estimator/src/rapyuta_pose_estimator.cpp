@@ -374,7 +374,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     case 5: //100
     {
       Eigen::Matrix4d transform_target;
-      transform_target=(trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/2.0;
+      //transform_target=(trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/2.0;
+      transform_target=trackable_object_.getCurrentPose_cam2();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
@@ -403,7 +404,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     case 2: //010
     {
       Eigen::Matrix4d transform_target;
-      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam3())/2.0;
+      //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam3())/2.0;
+      transform_target=trackable_object_.getCurrentPose_cam1();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
@@ -412,7 +414,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     case 1: //001
     {
       Eigen::Matrix4d transform_target;
-      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2())/2.0;
+      //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2())/2.0;
+      transform_target=trackable_object_.getCurrentPose_cam2();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
@@ -421,7 +424,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     case 0: //000
     {
       Eigen::Matrix4d transform_target;
-      transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/3.0;
+      //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/3.0;
+      transform_target=trackable_object_.getCurrentPose_cam3();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));

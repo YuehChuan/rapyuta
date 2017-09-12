@@ -15,10 +15,10 @@
 
     <rosparam command="delete" param="tag_data" />
     <rosparam param="tag_data">
-      "1": 
-        size: 0.035
-      "2":
-        size: 0.048
+      "166": 
+        size: 0.165
+      "1":
+        size: 0.32
     </rosparam>
 
     <remap from="~image" to="/$(arg cam)/usb_cam/image_raw"/>

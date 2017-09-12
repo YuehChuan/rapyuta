@@ -7,18 +7,22 @@ cmd "1-rapyuta pose estimate start" {
     exec = "rosrun rapyuta_pose_estimator rapyuta_pose_estimator";
     host = "localhost";
 }
+cmd "2-rqt_multiplot " {
+    exec = "roslaunch transform visualization.launch";
+    host = "localhost";
+}
 
-cmd "2-rviz" {
+cmd "3-rviz" {
     exec = "rosrun rviz rviz";
     host = "localhost";
 }
 
-cmd "3-rosbag-record" {
+cmd "4-rosbag-record" {
     exec = "rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections";
     host = "localhost";
 }
 
-cmd "4-rqt_multiplot " {
+cmd "5-rqt_multiplot " {
     exec = "rosrun rqt_multiplot rqt_multiplot";
     host = "localhost";
 }
