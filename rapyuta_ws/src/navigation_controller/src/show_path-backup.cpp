@@ -38,10 +38,10 @@ main (int argc, char **argv)
 		tf::StampedTransform transform2;
 		tf::Quaternion q2;
 		try{
-/*			listener.waitForTransform("/base_link", "/world", ros::Time(0), ros::Duration(10.0) );
+			listener.waitForTransform("/base_link", "/world", ros::Time(0), ros::Duration(10.0) );
 			listener.lookupTransform("/world", "/base_link", ros::Time(0), transform);
 			q = transform.getRotation();
-*/
+
 			listener2.waitForTransform("/target", "/world", ros::Time(0), ros::Duration(10.0) );
 			listener2.lookupTransform("/world", "/target", ros::Time(0), transform2);
 			q2 = transform2.getRotation();

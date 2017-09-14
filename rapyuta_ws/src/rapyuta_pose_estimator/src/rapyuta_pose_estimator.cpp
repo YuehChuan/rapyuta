@@ -224,8 +224,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform1=matrixToTf(transform_cam1);
       transform1_static=matrixToTf(transform_cam1_static);//init
-      br1.sendTransform(tf::StampedTransform(transform1, ros::Time::now(), "map","apriltag" ));
-      br1_origin.sendTransform(tf::StampedTransform(transform1_static, ros::Time::now(),"map", "camera1_static"));
+      br1.sendTransform(tf::StampedTransform(transform1, ros::Time::now(), "world","apriltag" ));
+      br1_origin.sendTransform(tf::StampedTransform(transform1_static, ros::Time::now(),"world", "camera1_static"));
     }
     else //If it is first cam1 than initialize
     {
@@ -270,8 +270,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform2=matrixToTf(transform_cam2);
       transform2_static=matrixToTf(transform_cam2_static);//init
-      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "apriltag2"));// publish cam2 tag measurement from cam1 corordinate system
-      br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "map", "camera2_static"));
+      br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "world", "apriltag2"));// publish cam2 tag measurement from cam1 corordinate system
+      br2_origin.sendTransform(tf::StampedTransform(transform2_static, ros::Time::now(), "world", "camera2_static"));
 
       //test
 //      br4.sendTransform(tf::StampedTransform(transform4, ros::Time::now(), "camera2", "apriltag-test"));//publish cam2<---tag
@@ -321,8 +321,8 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       //visualize
       transform3=matrixToTf(transform_cam3);
       transform3_static=matrixToTf(transform_cam3_static);//init
-      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "map", "apriltag3"));// publish cam3 tag measurement from cam1 corordinate system
-      br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "map", "camera3_static"));//publish cam1<---cam3
+      br3.sendTransform(tf::StampedTransform(transform3, ros::Time::now(), "world", "apriltag3"));// publish cam3 tag measurement from cam1 corordinate system
+      br3_origin.sendTransform(tf::StampedTransform(transform3_static, ros::Time::now(), "world", "camera3_static"));//publish cam1<---cam3
 
     }
     else //If it is first cam3 than initialize
@@ -368,7 +368,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam3();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
     case 5: //100
@@ -378,7 +378,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam2();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
 
@@ -388,7 +388,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam2();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
 
@@ -398,17 +398,17 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam1();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
     case 2: //010
     {
       Eigen::Matrix4d transform_target;
       //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam3())/2.0;
-      transform_target=trackable_object_.getCurrentPose_cam1();
+      transform_target=trackable_object_.getCurrentPose_cam3();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
     case 1: //001
@@ -418,7 +418,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam2();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
     case 0: //000
@@ -428,7 +428,7 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       transform_target=trackable_object_.getCurrentPose_cam3();
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
-      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "map", "target"));
+      br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
       break;
     }
     default:
