@@ -210,3 +210,7 @@ add_dependencies(command_pub_srv_gui ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catki
 add_executable(show_path src/show_path.cpp)
 target_link_libraries(show_path ${catkin_LIBRARIES})
 add_dependencies(show_path ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(all_show_path src/all_show_path.cpp)
+target_link_libraries(all_show_path ${catkin_LIBRARIES})
+add_dependencies(all_show_path ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

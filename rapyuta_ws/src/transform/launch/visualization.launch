@@ -1,4 +1,4 @@
 <launch>
 <node name="transform_node" pkg="transform" type="transform" output="screen" clear_params="true" required="true"/>
-<node name="show_path_node" pkg="navigation_controller" type="show_path" output="screen" clear_params="true" required="true"/>
+<node name="all_show_path_node" pkg="navigation_controller" type="all_show_path" output="screen" clear_params="true" required="true"/>
 </launch>
