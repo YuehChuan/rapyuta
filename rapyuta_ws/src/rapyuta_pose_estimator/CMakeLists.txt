@@ -26,6 +26,21 @@ find_package(Boost REQUIRED COMPONENTS system signals regex date_time program_op
 find_package( Sophus REQUIRED )
 find_package(Eigen REQUIRED)
 
+# Find GTSAM components
+find_package(GTSAM REQUIRED) # Uses installed package
+include_directories(${GTSAM_INCLUDE_DIR})
+set(GTSAM_LIBRARIES gtsam)   # TODO: automatic search libs
+
+find_package(GTSAMCMakeTools)
+include(GtsamMakeConfigFile)
+include(GtsamBuildTypes)
+#include(GtsamTesting)
+
+# for unittest scripts
+#set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${GTSAM_DIR}/../GTSAMCMakeTools")
+
+
+
 
 # Import the yaml-cpp libraries.
 include(FindPkgConfig)
@@ -55,12 +70,10 @@ include_directories(
   ${Yaml_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${Sophus_INCLUDE_DIRS}
+  ${GTSAM_INCLUDE_DIRS}
   )
 
-
-
-
-add_executable(rapyuta_pose_estimator src/node.cpp src/rapyuta_pose_estimator.cpp )
+add_executable(rapyuta_pose_estimator src/node.cpp 	src/rapyuta_pose_estimator.cpp)
 
 add_dependencies(rapyuta_pose_estimator ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
@@ -71,6 +84,7 @@ target_link_libraries(
     ${Yaml_LIBRARIES}
     ${apriltagscpp_LIBRARIES}
     ${Sophus_LIBRARIES}
+    ${GTSAM_LIBRARIES}
     )
 
 ###nodelet
