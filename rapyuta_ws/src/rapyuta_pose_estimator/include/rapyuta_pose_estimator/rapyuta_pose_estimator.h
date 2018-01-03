@@ -105,6 +105,12 @@ class TSNode
        //calculate measurement from cam2,cam3 (transform into cam1<---tag)
        Eigen::Matrix4d  cam2tagMeasurement(const Eigen::Matrix4d inputMat4x4);
        Eigen::Matrix4d  cam3tagMeasurement(const Eigen::Matrix4d inputMat4x4);
+
+       //helper function
+       int max_all();
+       int max_12();
+       int max_23();
+       int max_13();
 };//end of class
 
 }//tags_sub namespace

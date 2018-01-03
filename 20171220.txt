@@ -1,0 +1,1000 @@
+    2  01/11/17 01:43:56 ls
+    3  01/11/17 01:44:03 cd config/
+    4  01/11/17 01:44:03 ls
+    5  01/11/17 01:44:08 source environment.sh 
+    6  01/11/17 01:44:10 ls
+    7  01/11/17 01:44:11 cd ..
+    8  01/11/17 01:44:11 ls
+    9  01/11/17 01:44:12 cd isamShapePose/
+   10  01/11/17 01:44:12 ls
+   11  01/11/17 01:44:18 vim install.sh 
+   12  01/11/17 01:44:28 ./install.sh 
+   13  01/11/17 01:47:10 cd ..
+   14  01/11/17 01:47:14 cd catkin_ws/
+   15  01/11/17 01:47:18 catkin_make
+   16  01/11/17 01:47:23 cd ..
+   17  01/11/17 01:47:26 ls
+   18  01/11/17 01:47:34 source software/config/environment.sh 
+   19  01/11/17 01:47:35 cd catkin_ws/
+   20  01/11/17 01:47:38 catkin_make
+   21  01/11/17 01:47:44 clear
+   22  01/11/17 01:47:45 ls
+   23  01/11/17 01:47:49 rm -r build devel
+   24  01/11/17 01:47:50 clear
+   25  01/11/17 01:47:59 cd 
+   26  01/11/17 01:48:00 cd push-est-public/
+   27  01/11/17 01:48:02 cd catkin_ws/
+   28  01/11/17 01:48:03 cd ..
+   29  01/11/17 01:48:04 ls
+   30  01/11/17 01:48:09 source software/config/environment.sh 
+   31  01/11/17 01:48:10 clear
+   32  01/11/17 01:48:12 ls
+   33  01/11/17 01:48:13 cd catkin_ws/
+   34  01/11/17 01:48:13 ls
+   35  01/11/17 01:48:15 catkin_make
+   36  01/11/17 01:48:41 cd ..
+   37  01/11/17 01:48:41 ls
+   38  01/11/17 01:48:42 cd software/
+   39  01/11/17 01:48:43 ls
+   40  01/11/17 01:48:47 cd externals/
+   41  01/11/17 01:48:47 ls
+   42  01/11/17 01:48:54 cd isam_v1_7/
+   43  01/11/17 01:48:54 ls
+   44  01/11/17 01:48:55 cd ..
+   45  01/11/17 01:48:57 ls
+   46  01/11/17 01:48:59 cd ..
+   47  01/11/17 01:48:59 ls
+   48  01/11/17 02:06:47 cd 
+   49  01/11/17 02:07:17 git clone --recursive  https://github.com/mcubelab/push-est-public.git
+   50  01/11/17 02:07:41 ls
+   51  01/11/17 02:08:00 cd push-est-public/
+   52  01/11/17 02:08:00 ls
+   53  01/11/17 02:08:09 vim .gitmodules 
+   54  01/11/17 02:09:16 cd pu
+   55  01/11/17 02:09:17 cd 
+   56  01/11/17 02:09:18 cd push-est-public/
+   57  01/11/17 02:09:21 vim .gitmodules 
+   58  01/11/17 02:14:37 cd 
+   59  01/11/17 02:14:38 ls
+   60  01/11/17 02:14:42 cd push-est-public/
+   61  01/11/17 02:14:42 ls
+   62  01/11/17 02:14:44 cd software/
+   63  01/11/17 02:14:44 ls
+   64  01/11/17 02:14:45 clear
+   65  01/11/17 02:14:45 ls
+   66  01/11/17 02:14:47 cd apriltags/
+   67  01/11/17 02:14:48 ls
+   68  01/11/17 02:15:19 mkdir build
+   69  01/11/17 02:15:20 cd build/
+   70  01/11/17 02:15:30 cmake .. -DCMAKE_BUILD_TYPE=Release
+   71  01/11/17 02:15:37 make
+   72  01/11/17 02:16:12 ls
+   73  01/11/17 02:19:31 cd 
+   74  01/11/17 02:19:32 cd push-est-public/
+   75  01/11/17 02:19:39 source software/config/environment.sh 
+   76  01/11/17 02:19:40 clear
+   77  01/11/17 02:19:40 ls
+   78  01/11/17 02:19:42 cd catkin_ws/
+   79  01/11/17 02:19:42 ls
+   80  01/11/17 02:19:46 rm -r build devel
+   81  01/11/17 02:19:52 catkin_make
+   82  01/11/17 02:19:56 ls
+   83  01/11/17 02:20:00 rm -r build devel
+   84  01/11/17 02:20:01 clear
+   85  01/11/17 02:20:04 cd ..
+   86  01/11/17 02:20:07 cd software/
+   87  01/11/17 02:20:07 ls
+   88  01/11/17 02:20:11 cd build/
+   89  01/11/17 02:20:11 ls
+   90  01/11/17 02:20:13 cd ..
+   91  01/11/17 02:21:52 cd apriltags-cpp/
+   92  01/11/17 02:21:59 mkdir build
+   93  01/11/17 02:22:00 cd build/
+   94  01/11/17 02:22:15 cmake .. -DCMAKE_BUILD_TYPE=Release
+   95  01/11/17 02:22:21 make
+   96  01/11/17 02:29:23 cd ..
+   97  01/11/17 02:29:25 ls
+   98  01/11/17 02:29:29 clear
+   99  01/11/17 02:29:30 cd catkin_ws/
+  100  01/11/17 02:29:30 ls
+  101  01/11/17 02:29:37 catkin_make
+  102  01/11/17 02:30:46 cd catkin_ws/
+  103  01/11/17 02:30:46 l
+  104  01/11/17 02:30:50 rm -r build devel/
+  105  01/11/17 02:30:51 clear
+  106  01/11/17 02:30:51 ls
+  107  01/11/17 02:30:53 cd ..
+  108  01/11/17 02:30:54 cd software/
+  109  01/11/17 02:30:55 ls
+  110  01/11/17 02:31:03 cd externals/
+  111  01/11/17 02:31:03 ls
+  112  01/11/17 02:31:08 cd jsoncpp-src-0.5.0/
+  113  01/11/17 02:31:09 ls
+  114  01/11/17 02:31:12 cd ..
+  115  01/11/17 02:31:13 ls
+  116  01/11/17 02:31:14 cd ..
+  117  01/11/17 02:31:15 ls
+  118  01/11/17 02:31:18 cd config/
+  119  01/11/17 02:31:19 ls
+  120  01/11/17 02:31:20 cd ..
+  121  01/11/17 02:31:21 ls
+  122  01/11/17 02:31:44 cd isamShapePose/
+  123  01/11/17 02:31:45 ls
+  124  01/11/17 02:31:48 ./install.sh 
+  125  01/11/17 02:31:58 ls
+  126  01/11/17 02:32:01 cd ..
+  127  01/11/17 02:32:03 ls
+  128  01/11/17 02:32:06 source config/environment.sh 
+  129  01/11/17 02:32:07 cd ..
+  130  01/11/17 02:32:09 cd catkin_ws/
+  131  01/11/17 02:32:11 catkin_make
+  132  01/11/17 02:33:40 clear
+  133  01/11/17 02:33:40 ls
+  134  01/11/17 02:33:43 cd ..
+  135  01/11/17 02:33:43 ls
+  136  01/11/17 02:33:44 cd software/
+  137  01/11/17 02:33:45 ls
+  138  01/11/17 02:33:51 cd isamShapePose/
+  139  01/11/17 02:33:51 ls
+  140  01/11/17 02:33:53 vim in
+  141  01/11/17 02:39:55 ls
+  142  01/11/17 02:39:57 cd src/
+  143  01/11/17 02:39:57 ls
+  144  01/11/17 02:40:01 cd ..
+  145  01/11/17 02:40:02 ls
+  146  01/11/17 02:40:03 cd software/
+  147  01/11/17 02:40:03 ls
+  148  01/11/17 02:40:09 cd isamShapePose/
+  149  01/11/17 02:40:09 ls
+  150  01/11/17 02:40:12 ./install.sh 
+  151  01/11/17 02:40:52 sudo ./install.sh 
+  152  01/11/17 02:41:36 cd 
+  153  01/11/17 02:41:41 cd push-est-public/
+  154  01/11/17 02:41:47 source software/config/environment.sh 
+  155  01/11/17 02:41:49 cd catkin_ws/
+  156  01/11/17 02:41:51 catkin_make
+  157  01/11/17 02:43:45 cd 
+  158  01/11/17 02:43:47 cd push-est-
+  159  01/11/17 02:43:53 cd push-est-public/
+  160  01/11/17 02:43:53 ls
+  161  01/11/17 02:43:54 clear
+  162  01/11/17 02:43:54 ls
+  163  01/11/17 02:44:15 cd software/apriltags-cpp/
+  164  01/11/17 02:44:16 ls
+  165  01/11/17 02:44:18 cd build/
+  166  01/11/17 02:44:22 sudo make install
+  167  01/11/17 02:44:27 clear
+  168  01/11/17 02:45:12 catkin_make isam_pose 
+  169  01/11/17 02:48:30 roscd isam_pose/
+  170  01/11/17 02:48:30 ls
+  171  01/11/17 02:48:40 vim install.sh 
+  172  01/11/17 02:49:02 clear
+  173  01/11/17 02:49:02 ls
+  174  01/11/17 02:49:03 cd ..
+  175  01/11/17 02:49:08 catkin_make
+  176  01/11/17 02:49:47 ls
+  177  01/11/17 02:49:52 roscd apriltags/
+  178  01/11/17 02:49:52 ls
+  179  01/11/17 02:49:56 vim package.xml 
+  180  01/11/17 02:50:02 cd ..
+  181  01/11/17 02:50:04 cd 
+  182  01/11/17 02:50:07 cd push-est-public/
+  183  01/11/17 02:50:17 source software/config/environment.sh 
+  184  01/11/17 02:50:21 cd catkin_ws/
+  185  01/11/17 02:33:59 vim install.sh 
+  186  01/11/17 02:50:30 clear
+  187  01/11/17 02:50:23 catkin_make
+  188  01/11/17 02:50:40 roscd apriltags/
+  189  01/11/17 02:50:41 ls
+  190  01/11/17 02:50:42 cd ..
+  191  01/11/17 02:50:45 cd src/
+  192  01/11/17 02:50:49 cd isam_pose/
+  193  01/11/17 02:50:49 ls
+  194  01/11/17 02:51:15 cd src/
+  195  01/11/17 02:51:16 ls
+  196  01/11/17 02:50:52 vim package.xml 
+  197  01/11/17 02:51:38 vim CMakeLists.txt 
+  198  01/11/17 02:51:49 cd ..
+  199  01/11/17 02:51:52 catkin_make
+  200  01/11/17 02:52:26 cd 
+  201  01/11/17 02:52:28 cd rapyuta
+  202  01/11/17 02:52:29 ls
+  203  01/11/17 02:52:34 cd rapyuta_ws/
+  204  01/11/17 02:52:34 ls
+  205  01/11/17 02:52:35 cd src/
+  206  01/11/17 02:52:35 ls
+  207  01/11/17 02:54:16 cd tags_sub/
+  208  01/11/17 02:54:16 ls
+  209  01/11/17 02:54:19 cd src/
+  210  01/11/17 02:54:19 ls
+  211  01/11/17 02:54:25 vim tags_sub.cpp 
+  212  01/11/17 02:54:30 ls
+  213  01/11/17 02:54:31 cd ..
+  214  01/11/17 02:54:32 ls
+  215  01/11/17 02:54:33 cd include/
+  216  01/11/17 02:54:33 ls
+  217  01/11/17 02:54:36 cd tags_sub/
+  218  01/11/17 02:54:36 ls
+  219  01/11/17 02:54:39 vim tags_sub.h 
+  220  01/11/17 02:54:49 clear
+  221  01/11/17 02:52:51 vim /home/rapyuta/push-est-public/catkin_ws/src/isam_pose/src/isam_pose.cpp
+  222  01/11/17 02:56:27 catkin_make
+  223  01/11/17 02:55:40 vim tags_sub.h 
+  224  01/11/17 02:57:11 ls
+  225  01/11/17 02:57:11 cd ..
+  226  01/11/17 02:57:12 ls
+  227  01/11/17 02:57:13 cd ..
+  228  01/11/17 02:57:13 ls
+  229  01/11/17 02:57:17 vim CMakeLists.txt 
+  230  01/11/17 02:57:06 vim /home/rapyuta/push-est-public/catkin_ws/src/isam_pose/src/isam_pose.cpp
+  231  01/11/17 02:57:33 clear
+  232  01/11/17 02:57:34 ls
+  233  01/11/17 02:57:38 roscd isam_pose/
+  234  01/11/17 02:57:38 ls
+  235  01/11/17 02:57:41 vim package.xml 
+  236  01/11/17 02:58:19 vim CMakeLists.txt 
+  237  01/11/17 02:58:43 cd ..
+  238  01/11/17 02:57:26 vim package.xml 
+  239  01/11/17 02:58:47 catkin_make
+  240  01/11/17 02:59:25 ls
+  241  01/11/17 02:59:26 cd ..
+  242  01/11/17 02:59:29 cd rapyuta
+  243  01/11/17 02:59:31 cd ..
+  244  01/11/17 02:59:34 cd rapyuta_msgs/
+  245  01/11/17 02:59:34 ls
+  246  01/11/17 02:59:36 cd include/
+  247  01/11/17 02:59:36 ls
+  248  01/11/17 02:59:38 cd rapyuta_msgs/
+  249  01/11/17 02:59:38 ls
+  250  01/11/17 02:59:40 cd ..
+  251  01/11/17 02:59:40 ls
+  252  01/11/17 02:59:42 cd ..
+  253  01/11/17 02:59:42 ls
+  254  01/11/17 02:59:45 cd msg/
+  255  01/11/17 02:59:45 ls
+  256  01/11/17 02:59:53 cd ..
+  257  01/11/17 02:59:55 cd tags_sub/
+  258  01/11/17 03:00:15 roscd isam_pose/
+  259  01/11/17 03:00:18 vim CMakeLists.txt 
+  260  01/11/17 02:59:57 vim CMakeLists.txt 
+  261  01/11/17 03:01:16 cd ..
+  262  01/11/17 03:01:18 catkin_make
+  263  01/11/17 03:01:42 roscd isam_pose/
+  264  01/11/17 03:01:43 vim CMakeLists.txt 
+  265  01/11/17 03:02:24 cd 
+  266  01/11/17 03:02:26 cd push-est-public/
+  267  01/11/17 03:02:27 cd catkin_ws/
+  268  01/11/17 03:02:29 catkin_make
+  269  01/11/17 03:03:12 roscd isam_pose/
+  270  01/11/17 03:03:23 vim /home/rapyuta/push-est-public/catkin_ws/src/isam_pose/src/isam_pose.cpp
+  271  01/11/17 03:03:42 cd 
+  272  01/11/17 03:03:43 cd push-est-public/
+  273  01/11/17 03:03:51 source software/config/environment.sh 
+  274  01/11/17 03:03:53 cd catkin_ws/
+  275  01/11/17 03:03:56 catkin_make
+  276  01/11/17 03:07:04 ls
+  277  01/11/17 03:07:06 vim add_message_files(DIRECTORY msg FILES
+  278  01/11/17 03:07:10 vim CMakeLists.txt 
+  279  01/11/17 03:08:41 vim /home/rapyuta/push-est-public/catkin_ws/src/isam_pose/src/isam_pose.cpp
+  280  01/11/17 03:10:05 source devel/setup.bash 
+  281  01/11/17 03:10:06 cd ..
+  282  01/11/17 03:13:45 cd 
+  283  01/11/17 03:13:47 cd push-est-public/
+  284  01/11/17 03:13:52 mkdir bag
+  285  01/11/17 03:14:18 source software/config/environment.sh 
+  286  01/11/17 03:14:19 clear
+  287  01/11/17 03:14:20 ls
+  288  01/11/17 03:15:04 cd 
+  289  01/11/17 03:15:05 clear
+  290  01/11/17 03:15:05 ls
+  291  01/11/17 03:15:07 cd push-est-public/
+  292  01/11/17 03:15:13 source software/config/environment.sh 
+  293  01/11/17 03:15:15 pwd
+  294  01/11/17 03:10:08 pman
+  295  01/11/17 03:14:28 rosbag play --clock bag/multipush_shape\=butter_surface\=plywood_rep\=0001_step\=0.0040_april.bag 
+  296  01/11/17 03:19:39 ls
+  297  01/11/17 03:19:41 cd bag/
+  298  01/11/17 03:19:42 ls
+  299  01/11/17 03:20:25 rosbag play --clock multipush.bag 
+  300  01/11/17 03:21:12 rostopic list
+  301  01/11/17 03:22:19 clear
+  302  01/11/17 03:22:38 rostopic echo /ft_left/netft_data
+  303  01/11/17 03:22:58 ls
+  304  01/11/17 03:22:59 rostopic list
+  305  01/11/17 03:22:21 rosbag play --clock multipush.bag 
+  306  01/11/17 03:23:16 rostopic echo /target_trajectory
+  307  01/11/17 03:17:32 rviz
+  308  01/11/17 03:17:21 roscore
+  309  01/11/17 03:24:36 ssh ubuntu@rapyuta01
+  310  01/11/17 03:24:47 ssh ubuntu@rapyuta02
+  311  01/11/17 03:24:55 ssh ubuntu@rapyuta03
+  312  01/11/17 03:26:38 rosclean check
+  313  09/11/17 09:55:52 ping rapyuta01
+  314  09/11/17 09:55:54 ping rapyuta02
+  315  09/11/17 09:55:57 ping rapyuta03
+  316  09/11/17 09:56:34 ssh ubuntu@rapytua02
+  317  09/11/17 09:57:43 rosotpic list
+  318  09/11/17 10:00:21 cd 
+  319  09/11/17 10:00:22 cd push-est-public/
+  320  09/11/17 10:00:23 ls
+  321  09/11/17 10:00:25 cd catkin_ws/
+  322  09/11/17 10:00:25 ls
+  323  09/11/17 10:00:27 catkin_make
+  324  09/11/17 10:04:36 ls
+  325  09/11/17 10:04:37 cd ..
+  326  09/11/17 10:05:29 pman
+  327  09/11/17 10:05:40 ls
+  328  09/11/17 10:05:49 source software/config/environment.sh 
+  329  09/11/17 09:56:26 ssh ubuntu@rapyuta01
+  330  09/11/17 09:56:39 ssh ubuntu@rapyuta02
+  331  09/11/17 09:56:46 ssh ubuntu@rapyuta03
+  332  09/11/17 09:57:49 roscore
+  333  09/11/17 10:05:50 pman
+  334  09/11/17 10:47:10 rostopic list
+  335  09/11/17 10:47:12 clear
+  336  09/11/17 10:47:48 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  337  09/11/17 10:47:53 source environment.sh 
+  338  09/11/17 10:47:55 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  339  09/11/17 10:48:09 ls
+  340  09/11/17 10:48:11 source environment.sh 
+  341  09/11/17 10:48:13 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  342  09/11/17 10:47:17 rviz
+  343  09/11/17 10:48:56 locate libopencv_core3.so.3.1
+  344  09/11/17 10:49:01 locate libopencv_core3
+  345  09/11/17 10:49:08 source environment.sh 
+  346  09/11/17 10:49:10 clear
+  347  09/11/17 10:49:10 ls
+  348  09/11/17 10:49:18 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  349  09/11/17 10:49:24 ls
+  350  09/11/17 10:49:29 roscd rapyuta_pose_estimator
+  351  09/11/17 10:49:29 ls
+  352  09/11/17 10:49:51 cd 
+  353  09/11/17 10:49:56 cd opencv-3.1.0/
+  354  09/11/17 10:49:56 ls
+  355  09/11/17 10:50:00 cd build/
+  356  09/11/17 10:50:00 ls
+  357  09/11/17 10:50:07 sudo make install 
+  358  09/11/17 10:56:22 cd ..
+  359  09/11/17 10:56:23 ls
+  360  09/11/17 10:56:28 cd opencv_contrib-3.1.0/
+  361  09/11/17 10:56:28 ls
+  362  09/11/17 10:56:32 cd ..
+  363  09/11/17 10:56:34 cd rapyuta
+  364  09/11/17 10:56:34 ls
+  365  09/11/17 10:56:37 source environment.sh 
+  366  09/11/17 10:56:44 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  367  09/11/17 10:57:09 ls
+  368  09/11/17 10:57:12 cd rapyuta_ws/
+  369  09/11/17 10:57:12 ls
+  370  09/11/17 10:57:16 rm build devel
+  371  09/11/17 10:57:20 rm -r build devel
+  372  09/11/17 10:47:39 rosrun navigation_controller show_path 
+  373  09/11/17 10:58:22 rviz
+  374  09/11/17 10:57:24 catkin_make
+  375  09/11/17 11:02:20 cd ..
+  376  09/11/17 11:02:21 source environment.sh 
+  377  09/11/17 11:02:26 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  378  09/11/17 11:03:59 rosrun navigation_controller show_path 
+  379  09/11/17 11:08:16 cd rapyuta_ws/
+  380  09/11/17 11:08:17 ls
+  381  09/11/17 11:08:18 cd ..
+  382  09/11/17 11:08:20 git status
+  383  09/11/17 11:08:30 ls
+  384  09/11/17 11:08:34 rm -r core 
+  385  09/11/17 11:08:35 ls
+  386  09/11/17 11:08:38 git status
+  387  09/11/17 10:35:20 ssh ubuntu@rapyuta01
+  388  09/11/17 10:35:40 ssh ubuntu@rapyuta03
+  389  09/11/17 10:35:46 roscore
+  390  09/11/17 10:35:30 ssh ubuntu@rapyuta02
+  391  09/11/17 10:49:34 vim CMakeLists.txt 
+  392  10/11/17 09:53:00 ssh ubuntu@rapytua03
+  393  10/11/17 09:54:17 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  394  10/11/17 09:56:33 clear
+  395  10/11/17 09:56:35 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  396  10/11/17 09:53:36 rviz
+  397  10/11/17 10:11:37 cd 
+  398  10/11/17 10:11:39 cd push-est-public/
+  399  10/11/17 10:11:39 ls
+  400  10/11/17 10:11:53 source software/config/environment.sh 
+  401  10/11/17 10:13:03 cd 
+  402  10/11/17 10:13:05 cd push-est-public/
+  403  10/11/17 10:13:06 clear
+  404  10/11/17 10:13:06 ls
+  405  10/11/17 10:13:17 cd catkin_ws/src/isam_pose/
+  406  10/11/17 10:13:18 ls
+  407  10/11/17 10:13:28 cd ..
+  408  10/11/17 10:13:32 ls
+  409  10/11/17 10:13:33 clear
+  410  10/11/17 10:13:33 l
+  411  10/11/17 10:13:35 scd isam_pose/
+  412  10/11/17 10:13:36 ls
+  413  10/11/17 10:13:37 cd isam_pose/
+  414  10/11/17 10:13:38 ls
+  415  10/11/17 10:13:39 clear
+  416  10/11/17 10:13:39 ls
+  417  10/11/17 10:13:51 cd ..
+  418  10/11/17 10:13:51 ls
+  419  10/11/17 10:13:53 cd ..
+  420  10/11/17 10:13:53 ls
+  421  10/11/17 10:13:55 cd devel/
+  422  10/11/17 10:13:55 ls
+  423  10/11/17 10:13:58 cd lib/
+  424  10/11/17 10:13:59 ls
+  425  10/11/17 10:14:01 cd isam_pose/
+  426  10/11/17 10:14:01 ls
+  427  10/11/17 10:14:02 clear
+  428  10/11/17 10:14:02 ls
+  429  10/11/17 10:11:55 pman
+  430  10/11/17 10:16:37 rosnode list
+  431  10/11/17 10:16:51 rqt_graph
+  432  10/11/17 10:39:13 locate slambook
+  433  10/11/17 10:39:18 cd 
+  434  10/11/17 10:39:20 cd slambook/
+  435  10/11/17 10:39:20 lc
+  436  10/11/17 10:39:22 clear
+  437  10/11/17 10:39:22 ls
+  438  10/11/17 10:39:25 cd ch7/
+  439  10/11/17 10:39:26 ls
+  440  10/11/17 10:39:26 clear
+  441  10/11/17 10:39:27 ls
+  442  10/11/17 10:40:15 cd build/
+  443  10/11/17 10:40:16 ls
+  444  10/11/17 10:40:20 ./triangulation 
+  445  10/11/17 10:40:25 cd ..
+  446  10/11/17 10:40:26 ls
+  447  10/11/17 10:40:30 rm -r build
+  448  10/11/17 10:40:34 mkdir build
+  449  10/11/17 10:40:35 cd build/
+  450  10/11/17 10:40:39 cmake ..
+  451  10/11/17 10:40:46 make
+  452  10/11/17 10:50:28 ls
+  453  10/11/17 10:50:31 ./triangulation 
+  454  10/11/17 10:51:18 ls
+  455  10/11/17 10:51:19 cd ..
+  456  10/11/17 10:51:20 ls
+  457  10/11/17 10:51:28 cd build/
+  458  10/11/17 10:51:38 ./triangulation ../1.png ../2.png 
+  459  10/11/17 09:52:47 ssh ubuntu@rapyuta01
+  460  10/11/17 09:53:11 roscore
+  461  10/11/17 09:52:53 ssh ubuntu@rapyuta02
+  462  10/11/17 09:53:05 ssh ubuntu@rapyuta03
+  463  10/11/17 09:54:34 rosrun navigation_controller show_path 
+  464  11/11/17 10:49:49 ssh ubuntu@rapyuta01
+  465  11/11/17 10:50:02 ssh ubuntu@rapyuta02
+  466  11/11/17 10:50:09 ssh ubuntu@rapyuta03
+  467  11/11/17 11:25:07 clear
+  468  11/11/17 11:25:08 ls
+  469  11/11/17 11:25:09 clear
+  470  11/11/17 11:26:59 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  471  11/11/17 11:28:25 clear
+  472  11/11/17 11:28:26 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  473  11/11/17 11:26:50 rosrun navigation_controller show_path 
+  474  11/11/17 11:44:07 ssh ubuntu@rapytua02
+  475  11/11/17 11:44:12 ssh ubuntu@rapyuta02
+  476  11/11/17 11:44:35 ssh ubuntu@rapyuta03
+  477  11/11/17 11:24:34 ssh ubuntu@rapyuta02
+  478  11/11/17 11:46:06 clear
+  479  11/11/17 11:46:11 clear
+  480  11/11/17 11:46:42 clear
+  481  11/11/17 11:46:53 clear
+  482  11/11/17 11:47:05 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  483  11/11/17 11:54:59 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  484  11/11/17 11:47:00 rosrun navigation_controller show_path 
+  485  11/11/17 11:25:14 rviz
+  486  11/11/17 12:11:45 clear
+  487  11/11/17 12:12:24 clear
+  488  11/11/17 12:15:00 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  489  11/11/17 12:13:08 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  490  11/11/17 12:19:09 clear
+  491  11/11/17 12:20:04 clear
+  492  11/11/17 12:20:16 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  493  11/11/17 12:20:42 rosrun navigation_controller show_path 
+  494  11/11/17 12:25:57 clear
+  495  11/11/17 12:26:13 clear
+  496  11/11/17 12:27:11 rosrun navigation_controller show_path 
+  497  11/11/17 12:31:14 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  498  11/11/17 11:46:13 ssh ubuntu@rapyuta03
+  499  11/11/17 11:46:07 ssh ubuntu@rapyuta02
+  500  11/11/17 11:24:28 roscore
+  501  11/11/17 12:58:29 rosclean check
+  502  11/11/17 11:24:31 ssh ubuntu@rapyuta01
+  503  11/11/17 13:07:29 roscore
+  504  11/11/17 13:43:26 rosclean check
+  505  11/11/17 13:43:30 rosclean purge
+  506  11/11/17 13:43:35 roscore
+  507  11/11/17 13:57:38 ssh ubuntu@rapyuta02
+  508  11/11/17 13:57:55 ssh ubuntu@rapyuta01
+  509  11/11/17 14:13:46 rostopic list
+  510  11/11/17 14:13:52 clear
+  511  11/11/17 14:18:58 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  512  11/11/17 14:09:31 rosrun navigation_controller show_path 
+  513  11/11/17 14:08:47 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  514  11/11/17 14:08:52 rviz
+  515  11/11/17 14:29:27 clear
+  516  11/11/17 14:42:47 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  517  11/11/17 14:06:45 roscore
+  518  11/11/17 14:06:51 ssh ubuntu@rapyuta02
+  519  11/11/17 14:06:55 ssh ubuntu@rapyuta03
+  520  13/11/17 15:26:21 ping rapytua01
+  521  13/11/17 15:26:26 ping rapyuta01
+  522  13/11/17 15:26:28 ping rapyuta02
+  523  13/11/17 15:26:32 cclear
+  524  13/11/17 15:26:35 clear
+  525  13/11/17 15:26:37 ping rapyuta03
+  526  13/11/17 15:26:41 clear
+  527  13/11/17 16:01:25 ping rapyuta03
+  528  13/11/17 16:01:39 ping rapyuta02
+  529  13/11/17 16:01:53 ssh ubuntu@rapytua01
+  530  13/11/17 16:01:31 ssh ubuntu@rapyuta03
+  531  13/11/17 16:01:47 ssh ubuntu@rapyuta02
+  532  13/11/17 16:02:09 ssh ubuntu@rapyuta01
+  533  13/11/17 16:02:16 roscore
+  534  24/11/17 14:26:12 ifconfig
+  535  24/11/17 14:26:19 ping rapyuta01
+  536  24/11/17 14:26:22 ping rapyuta02
+  537  24/11/17 14:26:24 ping rapyuta03
+  538  24/11/17 14:26:32 ssh ubuntu@rapytua01
+  539  24/11/17 14:26:51 ssh ubuntu@rapytua03
+  540  24/11/17 14:26:59 roscore
+  541  24/11/17 14:27:36 rviz
+  542  24/11/17 14:28:20 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  543  24/11/17 14:34:39 rostopic list
+  544  24/11/17 14:35:46 rostopic echo /rapyuta01/usb_cam/apriltags/detections
+  545  24/11/17 14:35:54 rostopic echo /rapyuta02/usb_cam/apriltags/detections
+  546  24/11/17 14:36:02 rostopic echo /rapyuta03/usb_cam/apriltags/detections
+  547  24/11/17 14:26:40 ssh ubuntu@rapyuta01
+  548  24/11/17 14:26:55 ssh ubuntu@rapyuta03
+  549  24/11/17 14:26:45 ssh ubuntu@rapyuta02
+  550  24/11/17 14:39:44 ping rapyuta01
+  551  24/11/17 14:39:47 ping rapyuta02
+  552  24/11/17 14:39:49 ping rapyuta03
+  553  24/11/17 14:33:24 rviz
+  554  24/11/17 14:40:17 ssh ubuntu@rapytua01
+  555  24/11/17 14:41:09 rviz
+  556  24/11/17 14:43:13 rosrun navigation_controller show_path 
+  557  24/11/17 14:40:19 ssh ubuntu@rapyuta01
+  558  24/11/17 14:41:34 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  559  24/11/17 14:47:20 ping rapyuta01
+  560  24/11/17 14:47:22 ping rapyuta02
+  561  24/11/17 14:47:25 ping rapyuta03
+  562  24/11/17 14:47:46 ssh ubutnu@rapyuta03
+  563  24/11/17 14:48:29 rosclean check
+  564  24/11/17 14:48:52 rviz
+  565  24/11/17 14:50:24 rosrun navigation_controller show_path 
+  566  24/11/17 14:49:12 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  567  24/11/17 14:47:28 ssh ubuntu@rapyuta01
+  568  24/11/17 14:47:35 ssh ubuntu@rapyuta02
+  569  24/11/17 14:48:01 ssh ubuntu@rapyuta03
+  570  24/11/17 14:48:10 roscore
+  571  27/11/17 14:45:06 rviz
+  572  27/11/17 17:18:55 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  573  27/11/17 17:20:24 clear
+  574  27/11/17 17:20:44 rosrun navigation_controller show_path 
+  575  27/11/17 17:20:25 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  576  27/11/17 14:42:07 ssh ubuntu@rapyuta02
+  577  27/11/17 18:02:08 ping rapytua03
+  578  27/11/17 18:02:13 ping rapyuta03
+  579  27/11/17 18:02:15 ping rapyuta02
+  580  27/11/17 18:02:17 ping rapyuta01
+  581  27/11/17 18:03:47 ping rapyuta03
+  582  27/11/17 18:03:51 ping rapyuta02
+  583  27/11/17 14:42:14 ssh ubuntu@rapyuta03
+  584  27/11/17 14:41:52 ssh ubuntu@rapyuta01
+  585  06/12/17 18:19:27 cd 
+  586  06/12/17 18:19:29 cd push-est-public/
+  587  06/12/17 18:19:31 ls
+  588  06/12/17 18:19:51 cd software/
+  589  06/12/17 18:19:51 ls
+  590  06/12/17 18:19:52 cd config/
+  591  06/12/17 18:19:54 ls
+  592  06/12/17 18:19:56 source environment.sh 
+  593  06/12/17 18:19:57 clear
+  594  06/12/17 18:22:29 vim ~/.bashrc
+  595  06/12/17 18:19:59 pman
+  596  06/12/17 18:23:20 source ~/.bashrc
+  597  06/12/17 18:23:31 cd software/config/
+  598  06/12/17 18:23:31 ls
+  599  06/12/17 18:23:35 cd ..
+  600  06/12/17 18:23:36 ls
+  601  06/12/17 18:23:37 cd 
+  602  06/12/17 18:23:38 cd push-est-public/
+  603  06/12/17 18:23:39 ls
+  604  06/12/17 18:23:41 cd software/config/
+  605  06/12/17 18:23:42 ls
+  606  06/12/17 18:23:44 vim environment.sh 
+  607  06/12/17 18:24:01 clear
+  608  06/12/17 18:24:03 source environment.sh 
+  609  06/12/17 18:24:07 source ~/.bashrc
+  610  06/12/17 18:24:10 pman
+  611  06/12/17 18:24:17 cd 
+  612  06/12/17 18:24:20 cd push-est-public/
+  613  06/12/17 18:24:22 cd ..
+  614  06/12/17 18:24:26 cd rapyuta/software/
+  615  06/12/17 18:24:27 ls
+  616  06/12/17 18:24:28 cd config/
+  617  06/12/17 18:24:28 ls
+  618  06/12/17 18:24:31 cd ..
+  619  06/12/17 18:24:31 ls
+  620  06/12/17 18:24:33 cd ..
+  621  06/12/17 18:24:43 cd software/
+  622  06/12/17 18:24:44 cd config/
+  623  06/12/17 18:24:45 ls
+  624  06/12/17 18:24:47 cd 
+  625  06/12/17 18:24:49 cd push-est-public/
+  626  06/12/17 18:24:59 cd software/
+  627  06/12/17 18:24:59 ls
+  628  06/12/17 18:25:02 cd config/
+  629  06/12/17 18:25:02 ls
+  630  06/12/17 18:25:05 vim environment.sh 
+  631  06/12/17 18:25:08 source environment.sh 
+  632  06/12/17 18:25:11 pman
+  633  06/12/17 23:51:15 cd p
+  634  06/12/17 23:51:16 cd 
+  635  06/12/17 23:51:18 cd push-est-public/
+  636  06/12/17 23:51:20 clear
+  637  06/12/17 23:51:21 ls
+  638  06/12/17 23:51:50 cd software/
+  639  06/12/17 23:51:50 ls
+  640  06/12/17 23:51:56 cd ..
+  641  06/12/17 23:51:56 ls
+  642  06/12/17 23:52:00 cd software/
+  643  06/12/17 23:52:01 ls
+  644  06/12/17 23:52:01 clear
+  645  06/12/17 23:52:02 ls
+  646  06/12/17 23:52:04 cd externals/
+  647  06/12/17 23:52:04 ls
+  648  06/12/17 23:52:07 cd ..
+  649  06/12/17 23:52:07 ls
+  650  06/12/17 23:52:09 cd config/
+  651  06/12/17 23:52:09 ls
+  652  06/12/17 23:52:10 source environment.sh 
+  653  06/12/17 23:52:12 pman
+  654  07/12/17 16:39:56 ping rapyuta01
+  655  07/12/17 16:40:00 ping rapyuta02
+  656  07/12/17 16:40:06 ping rapyuta03
+  657  07/12/17 16:54:04 rviz
+  658  07/12/17 16:55:22 rostopic list
+  659  07/12/17 16:55:34 rostopic echo /rapyuta03/usb_cam/apriltags/detections
+  660  07/12/17 16:56:14 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  661  07/12/17 16:58:05 rosrun navigation_controller show_path 
+  662  07/12/17 16:40:14 ssh ubuntu@rapyuta01
+  663  07/12/17 16:40:36 roscore
+  664  07/12/17 16:40:29 ssh ubuntu@rapyuta03
+  665  07/12/17 16:40:20 ssh ubuntu@rapyuta02
+  666  07/12/17 17:33:09 ssh ubuntu@rapyuta02
+  667  08/12/17 04:00:47 cd 
+  668  08/12/17 04:00:49 cd push-est-public/
+  669  08/12/17 04:00:49 ls
+  670  08/12/17 04:00:59 source software/config/environment.sh 
+  671  08/12/17 04:01:04 pman
+  672  08/12/17 04:03:37 clear
+  673  08/12/17 04:03:38 ls
+  674  08/12/17 04:03:45 cd 
+  675  08/12/17 04:03:49 mv push-est-public push
+  676  08/12/17 04:03:55 vim ~/.bashrc
+  677  08/12/17 04:04:17 cd 
+  678  08/12/17 04:04:19 cd push/
+  679  08/12/17 04:04:19 ls
+  680  08/12/17 04:04:20 clear
+  681  08/12/17 04:04:20 ls
+  682  08/12/17 04:04:25 rm core 
+  683  08/12/17 04:04:26 clear
+  684  08/12/17 04:04:27 sl
+  685  08/12/17 04:04:35 source software/config/environment.sh 
+  686  08/12/17 04:04:37 pma
+  687  08/12/17 04:06:50 cd /home/rapyuta/push/catkin_ws/src/isam_pose/cmake-build-debug/devel/lib/isam_pose/
+  688  08/12/17 04:06:54 cd 
+  689  08/12/17 04:06:56 cd /home/rapyuta/push/catkin_ws/src/isam_pose/cmake-build-debug/devel/lib/isam_pose/\
+  690  08/12/17 04:06:59 cd /home/rapyuta/push/catkin_ws/src/isam_pose/cmake-build-debug/devel/lib/isam_pose/
+  691  08/12/17 04:07:01 ls
+  692  08/12/17 04:07:07 cd push/
+  693  08/12/17 04:07:08 ls
+  694  08/12/17 04:07:11 cd catkin_ws/src/
+  695  08/12/17 04:07:14 cd isam_pose/
+  696  08/12/17 04:07:18 ls
+  697  08/12/17 04:07:26 vim install
+  698  08/12/17 04:07:36 ls
+  699  08/12/17 04:07:38 vim in
+  700  08/12/17 04:07:45 vim install.sh 
+  701  08/12/17 04:08:02 sudo vim hic.
+  702  08/12/17 04:08:07 sudo vim hi.c
+  703  08/12/17 04:08:21 sudo rm hi.c 
+  704  08/12/17 04:08:27 ./install.sh 
+  705  08/12/17 04:09:53 sudo ./install.sh 
+  706  08/12/17 04:10:11 ls
+  707  08/12/17 04:10:22 vim install
+  708  08/12/17 04:10:41 cd 
+  709  08/12/17 04:10:43 cd push/
+  710  08/12/17 04:10:47 source software/config/environment.sh 
+  711  08/12/17 04:10:49 sudo apt-get install cmake libsuitesparse-dev libeigen3-dev libsdl1.2-dev doxygen graphviz
+  712  08/12/17 04:11:09 cd cd ${CODE_BASE}/software/externals/isam_v1_7
+  713  08/12/17 04:11:12 cd ${CODE_BASE}/software/externals/isam_v1_7
+  714  08/12/17 04:11:13 ls
+  715  08/12/17 04:11:17 make
+  716  08/12/17 04:11:59 cd 
+  717  08/12/17 04:12:05 mv push push-est-public
+  718  08/12/17 04:12:05 ls
+  719  08/12/17 04:12:10 cd push-est-public/
+  720  08/12/17 04:12:11 clear
+  721  08/12/17 04:12:15 source software/config/environment.sh 
+  722  08/12/17 04:12:16 clear
+  723  08/12/17 04:12:18 pman
+  724  08/12/17 04:10:28 vim install.sh 
+  725  08/12/17 04:04:39 pman
+  726  08/12/17 05:55:15 cd 
+  727  08/12/17 05:55:16 cd push-est-public/
+  728  08/12/17 05:55:17 clear
+  729  08/12/17 05:55:17 ls
+  730  08/12/17 05:55:22 source software/config/environment.sh 
+  731  08/12/17 05:55:23 clear
+  732  08/12/17 05:56:15 cd rapyuta_ws/
+  733  08/12/17 05:56:15 ls
+  734  08/12/17 05:56:17 clear
+  735  08/12/17 05:56:17 l
+  736  08/12/17 05:56:20 cd src/
+  737  08/12/17 05:56:20 ls
+  738  08/12/17 05:56:21 lcear
+  739  08/12/17 05:56:21 l
+  740  08/12/17 05:56:23 clear
+  741  08/12/17 05:56:23 ls
+  742  08/12/17 05:56:27 cd 
+  743  08/12/17 05:56:30 cd push-est-public/
+  744  08/12/17 05:56:30 ls
+  745  08/12/17 05:56:31 clear
+  746  08/12/17 05:56:31 ls
+  747  08/12/17 05:56:34 cd c a
+  748  08/12/17 05:56:35 cd software/
+  749  08/12/17 05:56:36 ls
+  750  08/12/17 05:56:37 clear
+  751  08/12/17 05:56:38 ls
+  752  08/12/17 05:56:39 cd externals/
+  753  08/12/17 05:56:40 ls
+  754  08/12/17 05:56:42 cd 
+  755  08/12/17 05:56:51 cd push-est-public/software/externals/
+  756  08/12/17 05:56:51 ls
+  757  08/12/17 05:56:52 clear
+  758  08/12/17 05:56:52 ls
+  759  08/12/17 05:56:55 vim tobuild.txt 
+  760  08/12/17 05:57:03 ls
+  761  08/12/17 05:57:06 make
+  762  08/12/17 05:57:09 ls
+  763  08/12/17 05:57:12 cd ..
+  764  08/12/17 05:57:12 ls
+  765  08/12/17 05:57:20 cd ..
+  766  08/12/17 05:57:20 ls
+  767  08/12/17 05:57:23 cd catkin_ws/
+  768  08/12/17 05:57:23 ls
+  769  08/12/17 05:57:24 cd src/
+  770  08/12/17 05:57:25 ls
+  771  08/12/17 05:57:27 cd isam_pose/
+  772  08/12/17 05:57:27 ls
+  773  08/12/17 05:58:20 cd
+  774  08/12/17 05:58:21 clear
+  775  08/12/17 05:58:22 ls
+  776  08/12/17 05:58:24 cd push-est-public/
+  777  08/12/17 05:58:24 ls
+  778  08/12/17 05:58:26 clear
+  779  08/12/17 05:58:33 cd software/
+  780  08/12/17 05:58:33 ls
+  781  08/12/17 05:58:34 clear
+  782  08/12/17 05:58:34 ls
+  783  08/12/17 05:58:36 cd externals/
+  784  08/12/17 05:58:37 ls
+  785  08/12/17 05:58:38 clear
+  786  08/12/17 05:58:38 ls
+  787  08/12/17 05:58:41 cd cppad-20161231/
+  788  08/12/17 05:58:42 ls
+  789  08/12/17 05:58:42 clear
+  790  08/12/17 05:58:43 ls
+  791  08/12/17 05:59:02 echo ${CODE_BASE}
+  792  08/12/17 05:59:36 ls
+  793  08/12/17 05:59:37 cd ..
+  794  08/12/17 05:59:37 ls
+  795  08/12/17 05:59:41 cd ..
+  796  08/12/17 05:59:42 ls
+  797  08/12/17 05:59:44 cd config/
+  798  08/12/17 05:59:45 ls
+  799  08/12/17 06:00:13 cd 
+  800  08/12/17 06:00:15 cd push-est-public/
+  801  08/12/17 05:59:47 vim environment.sh 
+  802  08/12/17 06:00:29 source environment.sh 
+  803  08/12/17 06:00:31 clear
+  804  08/12/17 06:00:31 ls
+  805  08/12/17 06:00:32 cd ..
+  806  08/12/17 06:00:37 cd catkin_ws/
+  807  08/12/17 06:00:37 l
+  808  08/12/17 06:00:38 cd src/
+  809  08/12/17 06:00:39 ls
+  810  08/12/17 06:00:41 cd isam_pose/
+  811  08/12/17 06:00:41 ls
+  812  08/12/17 06:00:47 sudo vim hi.c
+  813  08/12/17 06:01:01 ls
+  814  08/12/17 06:01:07 sudo rm hi.c
+  815  08/12/17 06:01:08 ls
+  816  08/12/17 06:01:14 ./install.sh 
+  817  08/12/17 06:02:50 ls
+  818  08/12/17 06:02:56 vim install.sh 
+  819  08/12/17 06:03:02 ls
+  820  08/12/17 06:03:04 cd catkin_ws/
+  821  08/12/17 06:03:05 ls
+  822  08/12/17 06:03:05 cd src/
+  823  08/12/17 06:03:06 ls
+  824  08/12/17 06:03:07 cd isam_pose/
+  825  08/12/17 06:03:08 ls
+  826  08/12/17 06:03:13 vim install.sh 
+  827  08/12/17 06:03:45 sudo apt-get install python-pip python-dev build-essential
+  828  08/12/17 06:03:55 sudo pip install --upgrade pip
+  829  08/12/17 06:04:04 sudo pip install --upgrade virtualenv
+  830  08/12/17 06:04:15 sudo pip install pandas
+  831  08/12/17 06:04:23 sudo apt --yes install protobuf-compiler
+  832  08/12/17 06:04:30 sudo pip install protobuf
+  833  08/12/17 06:04:40 sudo apt-get install python-xlib
+  834  08/12/17 06:04:49 cd ${CODE_BASE}/software/externals/jsoncpp-src-0.5.0
+  835  08/12/17 06:04:56 python scons.py platform=linux-gcc
+  836  08/12/17 06:05:21 cp -r include ${CODE_BASE}/software/build/
+  837  08/12/17 06:05:23 clear
+  838  08/12/17 06:05:24 ls
+  839  08/12/17 06:05:25 cd ..
+  840  08/12/17 06:05:36 source software/config/environment.sh 
+  841  08/12/17 06:05:39 pman
+  842  08/12/17 05:57:37 vim install.sh 
+  843  08/12/17 05:55:24 pman
+  844  08/12/17 06:06:12 clear
+  845  08/12/17 06:06:59 cd 
+  846  08/12/17 06:09:26 cd /home/rapyuta/push-est-public/catkin_ws/src/isam_pose
+  847  08/12/17 06:09:27 ls
+  848  08/12/17 06:10:24 clear
+  849  08/12/17 06:10:24 ls
+  850  08/12/17 06:10:26 cd 
+  851  08/12/17 06:10:27 clear
+  852  08/12/17 06:10:27 ls
+  853  08/12/17 06:10:28 clear
+  854  08/12/17 06:10:29 ls
+  855  08/12/17 06:10:29 clear
+  856  08/12/17 06:06:14 pman
+  857  08/12/17 06:18:04 ls
+  858  08/12/17 06:18:19 source software/config/environment.sh 
+  859  08/12/17 06:18:21 ls
+  860  08/12/17 06:18:23 cd catkin_ws/
+  861  08/12/17 06:18:24 ls
+  862  08/12/17 06:18:28 rm -r build devel
+  863  08/12/17 06:20:50 cd push-est-public/
+  864  08/12/17 06:18:31 catkin_make
+  865  08/12/17 06:23:28 cd ..
+  866  08/12/17 06:23:33 source software/config/environment.sh 
+  867  08/12/17 06:23:45 ls
+  868  08/12/17 06:23:46 cd catkin_ws/
+  869  08/12/17 06:23:46 ls
+  870  08/12/17 06:23:47 cd src/
+  871  08/12/17 06:23:48 ls
+  872  08/12/17 06:23:49 cd isam_pose/
+  873  08/12/17 06:23:49 ls
+  874  08/12/17 06:24:54 cd 
+  875  08/12/17 06:24:55 ls
+  876  08/12/17 06:25:00 vim ~/.bashrc
+  877  08/12/17 06:23:37 pman
+  878  08/12/17 06:25:39 cd push-est-public/software/
+  879  08/12/17 06:25:40 ls
+  880  08/12/17 06:25:41 cd config/
+  881  08/12/17 06:25:42 ls
+  882  08/12/17 06:25:43 vim environment.sh 
+  883  08/12/17 06:26:10 source software/config/environment.sh 
+  884  08/12/17 06:26:13 pman
+  885  08/12/17 06:27:15 source software/config/environment.sh 
+  886  08/12/17 06:42:41 cd 
+  887  08/12/17 06:42:44 cd Downloads/
+  888  08/12/17 06:45:39 cd 
+  889  08/12/17 06:45:44 cd Videos/
+  890  08/12/17 06:51:38 cd 
+  891  08/12/17 06:51:40 cd push-est-public/
+  892  08/12/17 06:51:46 cd software/config/
+  893  08/12/17 06:51:48 vim environment.sh 
+  894  08/12/17 06:27:18 pman
+  895  08/12/17 17:14:38 ls
+  896  08/12/17 17:14:38 clear
+  897  08/12/17 17:14:39 ls
+  898  08/12/17 17:14:39 cd 
+  899  08/12/17 17:14:40 clear
+  900  08/12/17 17:14:40 ls
+  901  08/12/17 17:14:45 clear
+  902  08/12/17 17:14:45 ls
+  903  08/12/17 17:14:49 clear
+  904  08/12/17 17:14:49 ls
+  905  08/12/17 17:15:18 cd push-est-public/
+  906  08/12/17 17:15:22 ls
+  907  08/12/17 17:15:38 source software/config/environment.sh 
+  908  08/12/17 17:15:39 clear
+  909  08/12/17 17:15:41 pman
+  910  08/12/17 17:27:26 ping rapyuta01
+  911  08/12/17 17:27:29 ping rapyuta02
+  912  08/12/17 17:27:32 ping rapyuta03
+  913  08/12/17 22:26:19 clear
+  914  08/12/17 22:26:20 ls
+  915  08/12/17 22:26:21 clear
+  916  08/12/17 22:26:21 cd 
+  917  08/12/17 23:18:16 cd push-est-public/
+  918  08/12/17 23:37:55 source software/config/environment.sh 
+  919  08/12/17 23:37:57 clear
+  920  08/12/17 23:37:57 ls
+  921  08/12/17 23:37:58 pman
+  922  09/12/17 00:19:27 clear
+  923  09/12/17 00:19:30 pman
+  924  09/12/17 00:51:48 htop
+  925  09/12/17 00:51:54 top
+  926  09/12/17 00:56:08 clear
+  927  09/12/17 00:56:10 cd 
+  928  09/12/17 00:56:12 cd Videos/
+  929  09/12/17 01:22:22 clear
+  930  09/12/17 02:11:49 cd 
+  931  09/12/17 02:11:50 cd push-est-public/
+  932  09/12/17 02:11:55 source software/config/environment.sh 
+  933  09/12/17 02:11:58 pman
+  934  14/12/17 04:53:17 ping rapyuta01
+  935  14/12/17 04:53:19 ping rapyuta02
+  936  14/12/17 04:53:21 ping rapyuta03
+  937  14/12/17 04:56:58 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  938  14/12/17 04:59:03 rosrun navigation_controller show_path 
+  939  14/12/17 04:53:28 ssh ubuntu@rapyuta01
+  940  14/12/17 04:53:41 ssh ubuntu@rapyuta03
+  941  14/12/17 04:53:34 ssh ubuntu@rapyuta02
+  942  14/12/17 04:54:35 rviz
+  943  14/12/17 05:15:05 ssh ubuntu@rapyuta01
+  944  14/12/17 04:54:21 roscore
+  945  14/12/17 05:25:53 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  946  14/12/17 05:33:46 ls
+  947  14/12/17 05:20:45 rviz
+  948  14/12/17 05:21:00 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  949  14/12/17 05:22:06 rosrun navigation_controller show_path 
+  950  14/12/17 05:19:56 ssh ubuntu@rapyuta01
+  951  14/12/17 05:20:09 ssh ubuntu@rapyuta02
+  952  14/12/17 05:20:18 ssh ubuntu@rapyuta03
+  953  14/12/17 07:50:34 ping rapyuta01
+  954  14/12/17 07:51:04 roscore
+  955  14/12/17 07:51:35 clear
+  956  14/12/17 07:51:35 ls
+  957  14/12/17 07:51:36 clear
+  958  14/12/17 07:51:56 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  959  14/12/17 07:56:35 rostopic list
+  960  14/12/17 07:56:45 rostopic echo /target_pose
+  961  14/12/17 07:57:09 clear
+  962  14/12/17 08:00:00 osrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  963  14/12/17 08:01:32 rostopic list
+  964  14/12/17 08:01:41 rostopic echo /target_trajectory
+  965  14/12/17 08:01:53 rostopic echo /target_pose
+  966  14/12/17 08:00:04 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  967  14/12/17 07:50:48 ssh ubuntu@rapyuta02
+  968  14/12/17 07:51:41 rviz
+  969  14/12/17 08:29:16 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  970  14/12/17 08:42:19 cd 
+  971  14/12/17 08:42:24 ls
+  972  14/12/17 08:42:28 cd Videos/
+  973  14/12/17 08:42:28 ls
+  974  14/12/17 08:44:04 rqt_multiplot 
+  975  14/12/17 08:29:01 rosrun navigation_controller show_path 
+  976  14/12/17 08:50:09 ls
+  977  14/12/17 08:51:09 roatopic list
+  978  14/12/17 08:51:13 source environment.sh 
+  979  14/12/17 08:51:16 rostopic list
+  980  14/12/17 08:50:50 rosbag play 2017-12-14-08-29-17.bag 
+  981  14/12/17 08:44:18 rosrun rqt_multiplot rqt_multiplot 
+  982  14/12/17 08:21:29 roscore
+  983  14/12/17 11:02:04 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  984  14/12/17 11:01:33 rviz
+  985  14/12/17 11:06:50 rosbag record /target_pose /rapyuta01/usb_cam/image_raw /rapyuta02/usb_cam/image_raw /rapyuta03/usb_cam/image_raw /tf_static /tf /rosout_agg /rosout /rapyuta01/usb_cam/apriltags/detections /rapyuta02/usb_cam/apriltags/detections /rapyuta03/usb_cam/apriltags/detections
+  986  14/12/17 11:03:34 rosrun navigation_controller show_path 
+  987  14/12/17 11:01:03 ssh ubuntu@rapyuta02
+  988  14/12/17 11:01:11 ssh ubuntu@rapyuta03
+  989  14/12/17 11:00:56 ssh ubuntu@rapyuta01
+  990  20/12/17 22:19:41 clear
+  991  20/12/17 22:19:42 ls
+  992  20/12/17 22:19:43 clear
+  993  20/12/17 22:20:29 ls
+  994  20/12/17 22:20:30 clear
+  995  20/12/17 22:23:54 rosrun rapyuta_pose_estimator rapyuta_pose_estimator 
+  996  20/12/17 22:22:07 roscore
+  997  20/12/17 22:24:12 rviz
+  998  20/12/17 22:27:20 rosrun navigation_controller show_path 
+  999  20/12/17 22:29:39 rosrun rapyuta_pose_estimator rarp
+ 1000  20/12/17 22:32:52 atom
+ 1001  20/12/17 22:33:19 history >> 20171220.txt

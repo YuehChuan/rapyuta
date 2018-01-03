@@ -77,12 +77,19 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       tf::Transform transform1_static;
       tf::Transform transform1;
       double cam1_time_get_msg = cam1_msg->header.stamp.toSec();
+      Eigen::Vector3d pos_1;//check distance
 
       transform_cam1_static=trackable_object_.getInitPose_cam1();
 
       transform_cam1 = transform_cam1_static*poselistToTransform(cam1_msg);
+      pos_1= poseMsgToEigenPos(cam1_msg);
+      double d1 = sqrt (pow( pos_1(0),2)+pow( pos_1(1),2)+pow( pos_1(2),2) );
+
+
       trackable_object_.setPreviousPose_cam1(trackable_object_.getCurrentPose_cam1(),cam1_time_get_msg );
       trackable_object_.setCurrentPose_cam1(transform_cam1,cam1_time_get_msg );
+
+      trackable_object_.setCurrentDistance_cam1( d1 ,cam1_time_get_msg );
 
       //visualize
       transform1=matrixToTf(transform_cam1);
@@ -123,12 +130,17 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       tf::Transform transform2_static;
       tf::Transform transform2;
       double cam2_time_get_msg = cam2_msg->header.stamp.toSec();
+      Eigen::Vector3d pos_2;
 
       transform_cam2_static=trackable_object_.getInitPose_cam2();
       transform_cam2 = transform_cam2_static*poselistToTransform(cam2_msg);
+      pos_2= poseMsgToEigenPos(cam2_msg);
+      double d2 = sqrt (pow( pos_2(0),2)+pow( pos_2(1),2)+pow( pos_2(2),2) );
+
 
       trackable_object_.setPreviousPose_cam2(trackable_object_.getCurrentPose_cam2(),cam2_time_get_msg );
       trackable_object_.setCurrentPose_cam2(transform_cam2,cam2_time_get_msg );
+      trackable_object_.setCurrentDistance_cam2( d2 ,cam2_time_get_msg );
 
       //visualize
       transform2=matrixToTf(transform_cam2);
@@ -174,12 +186,17 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
       tf::Transform transform3_static;
       tf::Transform transform3;
       double cam3_time_get_msg = cam3_msg->header.stamp.toSec();
+      Eigen::Vector3d pos_3;
 
       transform_cam3_static=trackable_object_.getInitPose_cam3();
+      pos_3= poseMsgToEigenPos(cam3_msg);
+      double d3 = sqrt (pow( pos_3(0),2)+pow( pos_3(1),2)+pow( pos_3(2),2) );
+
 
       transform_cam3 = transform_cam3_static*poselistToTransform(cam3_msg);
       trackable_object_.setPreviousPose_cam3(trackable_object_.getCurrentPose_cam3(),cam3_time_get_msg );
       trackable_object_.setCurrentPose_cam3(transform_cam3,cam3_time_get_msg );
+      trackable_object_.setCurrentDistance_cam3( d3 ,cam3_time_get_msg );
 
       //visualize
       transform3=matrixToTf(transform_cam3);
@@ -238,7 +255,26 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     {
       Eigen::Matrix4d transform_target;
       //transform_target=(trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/2.0;
+
+      int chosen_cam;
+      chosen_cam = max_23();
+      if(chosen_cam == 2)//choose cam1
+      {
+        transform_target=trackable_object_.getCurrentPose_cam2();
+        printf("2,3 detect! and use CAM2\n");
+      }
+      else if(chosen_cam == 3)
+      {
+        transform_target=trackable_object_.getCurrentPose_cam3();
+        printf("2,3 detect! and use CAM3\n");
+      }
+      else
+      {
+        printf("ERROR!!\n" );
+      }
+
       transform_target=trackable_object_.getCurrentPose_cam2();
+
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
@@ -268,7 +304,25 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     {
       Eigen::Matrix4d transform_target;
       //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam3())/2.0;
-      transform_target=trackable_object_.getCurrentPose_cam3();
+
+      int chosen_cam;
+      chosen_cam = max_13();
+      if(chosen_cam == 1)//choose cam1
+      {
+        transform_target=trackable_object_.getCurrentPose_cam1();
+        printf("1,3 detect! and use CAM1\n");
+      }
+      else if(chosen_cam == 3)
+      {
+        transform_target=trackable_object_.getCurrentPose_cam3();
+        printf("1,3 detect! and use CAM3\n");
+      }
+      else
+      {
+        printf("ERROR!!\n" );
+      }
+
+
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
@@ -278,7 +332,25 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     {
       Eigen::Matrix4d transform_target;
       //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2())/2.0;
-      transform_target=trackable_object_.getCurrentPose_cam2();
+
+      int chosen_cam;
+      chosen_cam = max_12();
+      if(chosen_cam == 1)//choose cam1
+      {
+        transform_target=trackable_object_.getCurrentPose_cam2();
+        printf("1,2detect! and use CAM1\n");
+      }
+      else if(chosen_cam == 2)
+      {
+        transform_target=trackable_object_.getCurrentPose_cam3();
+        printf("1,2 detect! and use CAM2\n");
+      }
+      else
+      {
+        printf("ERROR!!\n" );
+      }
+
+      transform_target=trackable_object_.getCurrentPose_cam1();//test cam3 is empty case use cam2
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
@@ -288,7 +360,29 @@ void TSNode::cam123_sub_callback(const rapyuta_msgs::AprilTagDetections::ConstPt
     {
       Eigen::Matrix4d transform_target;
       //transform_target=(trackable_object_.getCurrentPose_cam1()+trackable_object_.getCurrentPose_cam2()+trackable_object_.getCurrentPose_cam3())/3.0;
-      transform_target=trackable_object_.getCurrentPose_cam3();
+      //choose the nearest one
+      int chosen_cam;
+      chosen_cam = max_all();
+      if(chosen_cam == 1)//choose cam1
+      {
+        transform_target=trackable_object_.getCurrentPose_cam1();
+        printf("All detect and use CAM1\n");
+      }
+      else if(chosen_cam == 2)
+      {
+        transform_target=trackable_object_.getCurrentPose_cam2();
+        printf("All detect and use CAM2\n");
+      }
+      else if(chosen_cam == 3)
+      {
+        transform_target=trackable_object_.getCurrentPose_cam3();
+        printf("All detect and use CAM3\n");
+      }
+      else
+      {
+        printf("ERROR!!!");
+      }
+
       trackable_object_.setCurrentPose_target(transform_target);
       tf::Transform target_TF=matrixToTf(transform_target);
       br_target.sendTransform(tf::StampedTransform(target_TF, ros::Time::now(), "world", "target"));
@@ -561,6 +655,102 @@ Eigen::Matrix4d  TSNode::cam3tagMeasurement(const Eigen::Matrix4d inputMat4x4)
         return cam3_tagMeasurement;
 }
 
+//----------------------helper function----------------------------------------------------
+//cam1,cam2,cam3,all detect
+int TSNode::max_all()
+{
+/*  Eigen::Matrix4d cam1_matrix = trackable_object_.getCurrentPose_cam1();
+  Eigen::Matrix4d cam2_matrix = trackable_object_.getCurrentPose_cam2();
+  Eigen::Matrix4d cam3_matrix = trackable_object_.getCurrentPose_cam3();
+*/
+
+ double d1 = trackable_object_.getCurrentDistance_cam1();
+ double d2 = trackable_object_.getCurrentDistance_cam2();
+ double d3 = trackable_object_.getCurrentDistance_cam3();;
+
+printf("d1=%lf d2= %lf   d3= %lf \n", d1,d2,d3);
+ double min= d1;
+ int index=1;
+ if (d2 <min)
+ {
+   min = d2;
+   index=2;
+ }
+ if (d3< min)
+ {
+   min = d3;
+   index=3;
+ }
+ printf("min = %lf\n",min);
+ return index;
+}
+//------------------------------------------------------------------------------------
+//cam1,cam2
+int TSNode::max_12()
+{
+/*  Eigen::Matrix4d cam1_matrix = trackable_object_.getCurrentPose_cam1();
+  Eigen::Matrix4d cam2_matrix = trackable_object_.getCurrentPose_cam2();
+*/
+
+double d1 = trackable_object_.getCurrentDistance_cam1();
+double d2 = trackable_object_.getCurrentDistance_cam2();
+printf("d1=%lf d2= %lf\n", d1,d2);
+ double min= d1;
+ int index=1;
+
+ if (d2 <min)
+ {
+   index=2;
+ }
+  printf("min = %lf\n",min);
+ return index;
+}
+
+//------------------------------------------------------------------------------------
+//cam2,cam3
+int TSNode::max_23()
+{
+/*  Eigen::Matrix4d cam2_matrix = trackable_object_.getCurrentPose_cam2();
+  Eigen::Matrix4d cam3_matrix = trackable_object_.getCurrentPose_cam3();
+*/
+
+double d2 = trackable_object_.getCurrentDistance_cam2();
+double d3 = trackable_object_.getCurrentDistance_cam3();;
+printf("d2=%lf d3= %lf\n", d2,d3);
+
+ double min= d2;
+ int index=2;
+
+ if (d3 <min)
+ {
+   index=3;
+ }
+  printf("min = %lf\n",min);
+ return index;
+}
+
+//------------------------------------------------------------------------------------
+//cam1,cam3
+int TSNode::max_13()
+{
+/*  Eigen::Matrix4d cam1_matrix = trackable_object_.getCurrentPose_cam1();
+  Eigen::Matrix4d cam3_matrix = trackable_object_.getCurrentPose_cam3();
+*/
+double d1 = trackable_object_.getCurrentDistance_cam1();
+double d3 = trackable_object_.getCurrentDistance_cam3();;
+printf("d1=%lf d3= %lf\n", d1,d3);
+
+
+ double min= d1;
+ int index=1;
+
+ if (d3 <min)
+ {
+   index=3;
+ }
+  printf("min = %lf\n",min);
+ return index;
+}
 
 
 

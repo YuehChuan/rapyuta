@@ -510,5 +510,38 @@ void PoseEstimator::setCurrentRelation_cam1Tocam2(const Eigen::Matrix4d & pose)
 }
 
 
+//---------------------------helper function----------------------------------
+//set and get distance
+//cam1
+void PoseEstimator::setCurrentDistance_cam1(double Distance_cam1_,double time)//Distance_cam1 is dummy
+{
+  cam1_current_distance_=Distance_cam1_;
+}
+double PoseEstimator::getCurrentDistance_cam1()
+{
+  return cam1_current_distance_;
+}
+
+//cam2
+void PoseEstimator::setCurrentDistance_cam2(double Distance_cam2_, double time)//Distance_cam1 is dummy
+{
+  cam2_current_distance_=Distance_cam2_;
+}
+double PoseEstimator::getCurrentDistance_cam2()
+{
+  return cam2_current_distance_;
+}
+
+//cam1
+void PoseEstimator::setCurrentDistance_cam3(double Distance_cam3_, double time)//Distance_cam1 is dummy
+{
+  cam3_current_distance_=Distance_cam3_;
+}
+double PoseEstimator::getCurrentDistance_cam3()
+{
+  return cam3_current_distance_;
+}
+
+
 
 }//namespace

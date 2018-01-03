@@ -72,7 +72,11 @@ class PoseEstimator
         Eigen::Matrix4d target_predicted_pose;
 
 
-
+        //set and get current distance
+        double cam1_current_distance_;
+        double cam2_current_distance_;
+        double cam3_current_distance_;
+        double target_current_distance_;
 
         //set and get current time
         double cam1_current_time_;
@@ -220,6 +224,22 @@ class PoseEstimator
 
         void optimisePose();
         void optimiseAndUpdatePose(double& time_to_predict);
+
+
+        //helper function usage
+        //set and get current distance
+        double getCurrentDistance_cam1();
+        void setCurrentDistance_cam1(double cam1_current_distance_, double time);
+        double getCurrentDistance_cam2();
+        void setCurrentDistance_cam2(double cam2_current_distance_,  double time);
+        double getCurrentDistance_cam3();
+        void setCurrentDistance_cam3(double cam3_current_distance_, double time);
+
+        double getCurrentDistance_target();
+        void setCurrentDistance_target(double target_current_distance_);
+
+
+
 
 }; //class definition need ";"
 }//namespace
